@@ -6,7 +6,6 @@ Welcome to OroCRM the Open Source Customer Relationship Management (CRM) applica
 
 OroCRM is a Symfony 2 based application with the following requirements:
 
-* PHP 5.4.9 or above
 * PHP 5.4.9 or above with command line interface
 * PHP Extensions:
     * GD
@@ -44,7 +43,7 @@ git clone http://github.com/orocrm/crm-application.git
   Go to crm-application folder and run composer installation:
 
 ```bash
-php composer.phar install --prefer-dist
+php composer.phar install --prefer-dist --no-dev
 ```
 
 - Create the database with the name specified on previous step (default name is "oro_crm").
@@ -106,7 +105,7 @@ php app/console oro:migration:data:load --fixtures-type=demo --env=prod
 
 ## Web Server Configuration
 
-OroCRM application is based on symfony standard application so web server cofiguration recomendation are the [same][5].
+OroCRM application is based on the Symfony standard application so web server configuration recommendations are the [same][5].
 
 [1]:  http://symfony.com/doc/2.3/book/installation.html
 [2]:  http://getcomposer.org/
