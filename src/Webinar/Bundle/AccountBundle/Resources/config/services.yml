@@ -1,7 +1,0 @@
-parameters:
-#    webinar_account.example.class: Webinar\Bundle\AccountBundle\Example
-
-services:
-#    webinar_account.example:
-#        class: %webinar_account.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

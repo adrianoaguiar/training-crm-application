@@ -1,2 +1,0 @@
-bundles:
-    - { name: Webinar\Bundle\AccountBundle\WebinarAccountBundle, priority: 200 }
