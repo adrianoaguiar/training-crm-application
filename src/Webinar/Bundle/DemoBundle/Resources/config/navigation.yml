@@ -1,0 +1,46 @@
+oro_menu_config:
+    items:
+        # hide tab
+        marketing_tab:
+            display: false
+
+        ticket_list:
+            label: 'webinar.ticket.entity_plural_label'
+            route: 'webinar_demo_ticket_index'
+            #display: false
+            extras:
+                position: 15
+                routes: ['webinar_demo_ticket_*']
+                description: 'webinar.ticket.menu.ticket_list.description'
+
+        shortcut_new_ticket:
+            label: 'webinar.ticket.menu.shortcut_new_ticket.label'
+            route: 'webinar_demo_ticket_create'
+            extras:
+                description: 'webinar.ticket.menu.shortcut_new_ticket.description'
+                isCustomAction: true
+
+    tree:
+        application_menu:
+            children:
+                customers_tab:
+                    children:
+                        ticket_list: ~
+                        sales_salesfunnel_list: ~
+                        lead_list: ~
+                        opportunity_list: ~
+                sales_tab:
+                    children:
+                        marketing_lists_list: ~
+
+
+
+        shortcuts:
+            children:
+                shortcut_new_ticket: ~
+
+oro_titles:
+    webinar_demo_ticket_index: ~
+    webinar_demo_ticket_view:   '%%ticket.eventName%%'
+    webinar_demo_ticket_create: 'Create Ticket'
+    webinar_demo_ticket_update: '%%ticket.eventName%% - Edit'

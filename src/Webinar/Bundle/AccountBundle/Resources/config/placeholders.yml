@@ -1,0 +1,9 @@
+placeholders:
+    orocrm_account_channel_info_magento:
+        items:
+            demo:
+                order: 10
+
+items:
+    demo:
+        template: WebinarAccountBundle:Account:demo_placeholder.html.twig

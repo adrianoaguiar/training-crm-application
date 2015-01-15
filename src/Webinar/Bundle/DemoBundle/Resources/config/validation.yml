@@ -1,0 +1,14 @@
+Webinar\Bundle\DemoBundle\Entity\Ticket:
+    properties:
+        eventName:
+            #- NotBlank:    { groups: [sample] }
+            - NotBlank:     ~
+            - Length:
+                min:        3
+                max:        255
+        seatNum:
+            - NotBlank:     ~
+        description:
+            - NotBlank:     ~
+        eventDate:
+            - NotBlank:     ~

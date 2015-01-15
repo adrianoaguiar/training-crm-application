@@ -1,0 +1,4 @@
+#webinar_account_bundle:
+#    resource: "@WebinarAccountBundle/Controller"
+#    type:     annotation
+#    prefix:   /
