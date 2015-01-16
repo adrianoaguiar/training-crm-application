@@ -70,9 +70,6 @@ class Invoice
      *          "entity"={
      *              "label"="oro.ui.created_at"
      *          },
-     *          "importexport"={
-     *              "excluded"=true
-     *          }
      *      }
      * )
      */

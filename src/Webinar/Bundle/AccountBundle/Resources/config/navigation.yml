@@ -32,6 +32,6 @@ oro_menu_config:
 
 oro_titles:
     webinar_account_invoice_index: ~
-    webinar_account_invoice_view:   '%%invoice.eventName%%'
+    webinar_account_invoice_view:   '%%invoice.id%%'
     webinar_account_invoice_create: 'Create invoice'
     webinar_account_invoice_update: '%%invoice.id%% - Edit'

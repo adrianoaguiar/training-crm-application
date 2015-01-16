@@ -4,6 +4,7 @@ parameters:
     webinar_account.invoice.form_type.api.class:    Webinar\Bundle\AccountBundle\Form\InvoiceApiType
     webinar_account.invoice.form.handler.class:     Webinar\Bundle\AccountBundle\Form\InvoiceHandler
     webinar_account.manager.api.class:              Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    webinar_account.form.extension.add_b2bcustomer.class: Webinar\Bundle\AccountBundle\Form\Extension\AddB2bCustomer
 
 services:
     # Form types
@@ -59,3 +60,9 @@ services:
             - %webinar_account.invoice.class%
             - @doctrine.orm.entity_manager
 
+    webinar_account.form.extension.add_b2bcustomer:
+        class: %webinar_account.form.extension.add_b2bcustomer.class%
+        arguments:
+            - @doctrine
+        tags:
+            - { name: form.type_extension, alias: orocrm_account }
