@@ -69,10 +69,10 @@ class WebinarAccountBundle implements Migration, OrderedMigrationInterface, Exte
 
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('total', 'money', ['precision' => 19, 'scale' => 4, 'comment' => '(DC2Type:money)']);
-        $table->addColumn('discount', 'percent', ['comment' => '(DC2Type:percent)']);
-        $table->addColumn('tax', 'percent', ['comment' => '(DC2Type:percent)']);
+        $table->addColumn('discount', 'percent', ['comment' => '(DC2Type:percent)', 'notnull' => false]);
+        $table->addColumn('tax', 'percent', ['comment' => '(DC2Type:percent)', 'notnull' => false]);
         $table->addColumn('note', 'string', ['length' => 255]);
-        $table->addColumn('datePaid', 'datetime', []);
+        $table->addColumn('datePaid', 'datetime', ['notnull' => false]);
         $table->addColumn('created_at', 'datetime', []);
         $table->addColumn('updated_at', 'datetime', []);
 

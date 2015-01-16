@@ -1,6 +1,7 @@
 orocrm:
     account:
         employee_count.label: "Employee #"
+        invoice.label:        Invoice
 
 webinar:
     invoice:

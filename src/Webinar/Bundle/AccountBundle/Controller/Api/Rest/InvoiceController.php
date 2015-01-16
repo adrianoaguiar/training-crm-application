@@ -116,7 +116,7 @@ class InvoiceController extends RestController implements ClassResourceInterface
      *      id="webinar_account_invoice_delete",
      *      type="entity",
      *      permission="DELETE",
-     *      class="WebinarDemoBundle:Invoice"
+     *      class="WebinarAccountBundle:Invoice"
      * )
      * @return Response
      */

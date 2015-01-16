@@ -1,7 +1,7 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
 {% import 'OroUIBundle::macros.html.twig' as macros %}
 
-{% oro_title_set({params : {"%invoice.id%": entity.eventName} }) %}
+{% oro_title_set({params : {"%invoice.id%": entity.id} }) %}
 
 {% block navButtons %}
     {% if resource_granted('EDIT', entity) %}
@@ -32,7 +32,7 @@
         'entity': entity,
         'indexPath': path('webinar_account_invoice_index'),
         'indexLabel': 'webinar.invoice.entity_plural_label'|trans,
-        'entityTitle': entity.eventName
+        'entityTitle': entity.note
         }
     %}
     {{ parent() }}
