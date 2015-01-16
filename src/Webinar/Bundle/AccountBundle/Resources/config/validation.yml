@@ -21,14 +21,3 @@ OroCRM\Bundle\AccountBundle\Entity\Account:
         invoice:
             - NotBlank:     { groups: [invoiced_account] }
 
-OroCRM\Bundle\ContactBundle\Entity\ContactAddress:
-    properties:
-        street:
-            - NotBlank: ~
-        city:
-            - NotBlank: ~
-        postalCode:
-            - NotBlank: ~
-    constraints:
-        - Callback:
-            methods: [isRegionValid]
