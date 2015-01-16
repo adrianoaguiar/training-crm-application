@@ -1,0 +1,37 @@
+oro_menu_config:
+    items:
+        invoice_list:
+            label: 'webinar.invoice.entity_plural_label'
+            route: 'webinar_account_invoice_index'
+            #display: false
+            extras:
+                position: 15
+                routes: ['webinar_account_invoice_*']
+                description: 'webinar.invoice.menu.invoice_list.description'
+
+        shortcut_new_invoice:
+            label: 'webinar.invoice.menu.shortcut_new_invoice.label'
+            route: 'webinar_account_invoice_create'
+            extras:
+                description: 'webinar.invoice.menu.shortcut_new_invoice.description'
+                isCustomAction: true
+
+    tree:
+        application_menu:
+            children:
+                customers_tab:
+                    children:
+                        invoice_list: ~
+                account_list: ~
+
+
+
+        shortcuts:
+            children:
+                shortcut_new_invoice: ~
+
+oro_titles:
+    webinar_account_invoice_index: ~
+    webinar_account_invoice_view:   '%%invoice.eventName%%'
+    webinar_account_invoice_create: 'Create invoice'
+    webinar_account_invoice_update: '%%invoice.id%% - Edit'

@@ -1,0 +1,99 @@
+datagrid:
+    invoice-grid:
+        source:
+            type: orm
+            acl_resource: webinar_account_invoice_view
+            query:
+                select:
+                    - i
+                from:
+                    - { table: %webinar_account.invoice.class%, alias: i }
+        columns:
+            note:
+                label:         webinar.invoice.form.note.label
+            total:
+                label:         webinar.invoice.form.total.label
+                frontend_type: currency
+            tax:
+                label:         webinar.invoice.form.tax.label
+                frontend_type: percent
+            discount:
+                label:         webinar.invoice.form.discount.label
+                frontend_type: percent
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            datePaid:
+                label:         webinar.invoice.form.datePaid.label
+                frontend_type: date
+        properties:
+            id: ~
+            view_link:
+                type:       url
+                route:      webinar_account_invoice_view
+                params:     [ id ]
+            update_link:
+                type:       url
+                route:      webinar_account_invoice_update
+                params:     [ id ]
+            delete_link:
+                type:       url
+                route:      webinar_api_delete_invoice
+                params:     [ id ]
+
+        sorters:
+            columns:
+                note:
+                    data_name: i.note
+                total:
+                    data_name: i.total
+                tax:
+                    data_name: i.tax
+                discount:
+                    data_name: i.discount
+                createdAt:
+                    data_name: i.createdAt
+                datePaid:
+                    data_name: i.datePaid
+            default:
+                createdAt: DESC
+        filters:
+            columns:
+                note:
+                    type: string
+                    data_name: i.note
+                total:
+                    type: string
+                    data_name: i.total
+                tax:
+                    type: string
+                    data_name: i.tax
+                discount:
+                    type: string
+                    data_name: i.discount
+                createdAt:
+                    type: datetime
+                    data_name: i.createdAt
+                datePaid:
+                    type: date
+                    data_name: i.datePaid
+        actions:
+            view:
+                type:          navigate
+                acl_resource:  webinar_account_invoice_view
+                label:         oro.grid.action.view
+                icon:          eye-open
+                link:          view_link
+                rowAction:     true
+            update:
+                type:          navigate
+                acl_resource:  webinar_account_invoice_update
+                label:         oro.grid.action.update
+                icon:          edit
+                link:          update_link
+            delete:
+                type:          delete
+                acl_resource:  webinar_account_invoice_delete
+                label:         oro.grid.action.delete
+                icon:          trash
+                link:          delete_link

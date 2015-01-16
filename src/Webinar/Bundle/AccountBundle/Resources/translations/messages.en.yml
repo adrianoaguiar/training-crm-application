@@ -1,0 +1,24 @@
+orocrm:
+    account:
+        employee_count.label: "Employee #"
+
+webinar:
+    invoice:
+        entity_label: Invoice
+        entity_plural_label: Invoices
+        saved.message: Invoice has been saved
+
+        form:
+            note.label: Note
+            datePaid.label: "Date paid"
+            total.label: Total
+            discount.label: Discount
+            tax.label:  Tax
+
+        menu:
+            invoice_list:
+                description: Invoice list
+
+            shortcut_new_invoice:
+                label:  New Invoice
+                description: Create new invoice

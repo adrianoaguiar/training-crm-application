@@ -1,15 +1,15 @@
 <?php
 
-namespace Webinar\Bundle\DemoBundle\Form;
+namespace Webinar\Bundle\AccountBundle\Form;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Webinar\Bundle\DemoBundle\Entity\Ticket;
+use Webinar\Bundle\AccountBundle\Entity\Invoice;
 
-class TicketHandler
+class InvoiceHandler
 {
     /** @var FormInterface */
     protected $form;
@@ -33,11 +33,11 @@ class TicketHandler
     }
 
     /**
-     * @param Ticket $entity
+     * @param Invoice $entity
      *
      * @return bool
      */
-    public function process(Ticket $entity)
+    public function process(Invoice $entity)
     {
         $this->form->setData($entity);
 
@@ -55,9 +55,9 @@ class TicketHandler
     }
 
     /**
-     * @param Ticket $entity
+     * @param Invoice $entity
      */
-    protected function onSuccess(Ticket $entity)
+    protected function onSuccess(Invoice $entity)
     {
         $this->manager->persist($entity);
         $this->manager->flush();

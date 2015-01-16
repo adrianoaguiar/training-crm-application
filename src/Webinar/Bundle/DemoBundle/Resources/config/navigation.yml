@@ -33,8 +33,6 @@ oro_menu_config:
                     children:
                         marketing_lists_list: ~
 
-
-
         shortcuts:
             children:
                 shortcut_new_ticket: ~

@@ -25,7 +25,7 @@ class WebinarDemoBundle implements Migration
      */
     protected function createTicketTable(Schema $schema)
     {
-        $table = $schema->createTable('ticket');
+        $table = $schema->createTable('webinar_ticket');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('seat_num', 'integer', []);
         $table->addColumn('description', 'string', ['length' => 255]);

@@ -1,0 +1,9 @@
+Webinar\Bundle\AccountBundle\Entity\Invoice:
+    properties:
+        total:
+            - NotBlank:     ~
+        note:
+            - NotBlank:     ~
+            - Length:
+                min:        3
+                max:        255

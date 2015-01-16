@@ -5,9 +5,10 @@ parameters:
     webinar_demo.ticket.form.handler.class:     Webinar\Bundle\DemoBundle\Form\TicketHandler
     webinar_demo.manager.api.class:             Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
-services:
     # override crm listener
-    orocrm_contact.subscriber.contact_listener.class:                     Webinar\Bundle\DemoBundle\EventListener\ContactListener
+    orocrm_contact.subscriber.contact_listener.class: Webinar\Bundle\DemoBundle\EventListener\CreatedUpdatedListener
+
+services:
 
     # Form types
     webinar_demo.ticket.form_type:

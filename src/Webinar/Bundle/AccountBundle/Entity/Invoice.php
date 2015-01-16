@@ -1,6 +1,6 @@
 <?php
 
-namespace Webinar\Bundle\DemoBundle\Entity;
+namespace Webinar\Bundle\AccountBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,14 +8,14 @@ use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 
 /**
- * Ticket
+ * Invoice
  *
- * @ORM\Table(name="webinar_ticket")
- * @ORM\Entity(repositoryClass="Webinar\Bundle\DemoBundle\Entity\TicketRepository")
+ * @ORM\Table(name="webinar_invoice")
+ * @ORM\Entity
  * @Config()
  * @ORM\HasLifecycleCallbacks()
  */
-class Ticket
+class Invoice
 {
     /**
      * @var integer
@@ -27,32 +27,39 @@ class Ticket
     protected $id;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="seat_num", type="integer")
+     * @ORM\Column(name="total", type="money")
      */
-    protected $seatNum;
+    protected $total;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="discount", type="percent", nullable=true)
+     */
+    protected $discount;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="tax", type="percent", nullable=true)
+     */
+    protected $tax;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="note", type="string", length=255)
      */
-    protected $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="event_name", type="string", length=255)
-     */
-    protected $eventName;
+    protected $note;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="event_date", type="datetime")
+     * @ORM\Column(name="datePaid", type="datetime", nullable=true)
      */
-    protected $eventDate;
+    protected $datePaid;
 
     /**
      * @var \DateTime
@@ -91,7 +98,7 @@ class Ticket
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -99,120 +106,123 @@ class Ticket
     }
 
     /**
-     * Set seatNum
+     * Set total
      *
-     * @param integer $seatNum
-     * @return Ticket
+     * @param float $total
+     *
+     * @return Invoice
      */
-    public function setSeatNum($seatNum)
+    public function setTotal($total)
     {
-        $this->seatNum = $seatNum;
+        $this->total = $total;
 
         return $this;
     }
 
     /**
-     * Get seatNum
+     * Get total
      *
-     * @return integer 
+     * @return float
      */
-    public function getSeatNum()
+    public function getTotal()
     {
-        return $this->seatNum;
+        return $this->total;
     }
 
     /**
-     * Set description
+     * Set discount
      *
-     * @param string $description
-     * @return Ticket
+     * @param float $discount
+     *
+     * @return Invoice
      */
-    public function setDescription($description)
+    public function setDiscount($discount)
     {
-        $this->description = $description;
+        $this->discount = $discount;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get discount
      *
-     * @return string 
+     * @return float
      */
-    public function getDescription()
+    public function getDiscount()
     {
-        return $this->description;
+        return $this->discount;
     }
 
     /**
-     * Set eventName
+     * Set tax
      *
-     * @param string $eventName
-     * @return Ticket
+     * @param float $tax
+     *
+     * @return Invoice
      */
-    public function setEventName($eventName)
+    public function setTax($tax)
     {
-        $this->eventName = $eventName;
+        $this->tax = $tax;
 
         return $this;
     }
 
     /**
-     * Get eventName
+     * Get tax
      *
-     * @return string 
+     * @return float
      */
-    public function getEventName()
+    public function getTax()
     {
-        return $this->eventName;
+        return $this->tax;
     }
 
     /**
+     * Set note
+     *
+     * @param string $note
+     *
+     * @return Invoice
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
+     * Get note
+     *
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * Set datePaid
+     *
+     * @param \DateTime $datePaid
+     *
+     * @return Invoice
+     */
+    public function setDatePaid($datePaid)
+    {
+        $this->datePaid = $datePaid;
+
+        return $this;
+    }
+
+    /**
+     * Get datePaid
+     *
      * @return \DateTime
      */
-    public function getEventDate()
+    public function getDatePaid()
     {
-        return $this->eventDate;
-    }
-
-    /**
-     * @param \DateTime $eventDate
-     */
-    public function setEventDate($eventDate)
-    {
-        $this->eventDate = $eventDate;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
+        return $this->datePaid;
     }
 
     /**

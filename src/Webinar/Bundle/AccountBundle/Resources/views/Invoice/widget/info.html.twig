@@ -1,0 +1,20 @@
+{% import 'OroUIBundle::macros.html.twig' as ui %}
+{% import 'OroEmailBundle::macros.html.twig' as email %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+<div class="widget-content">
+    <div class="row-fluid form-horizontal">
+        <div class="responsive-block">
+            {{ ui.renderProperty('webinar.invoice.form.note.label'|trans, entity.note) }}
+
+
+            {{ ui.renderHtmlProperty('webinar.invoice.form.total.label'|trans, entity.total) }}
+            {{ ui.renderProperty('webinar.invoice.form.discount.label'|trans, entity.discount) }}
+            {{ ui.renderProperty('webinar.invoice.form.tax.label'|trans, entity.tax) }}
+        </div>
+
+        <div class="responsive-block">
+            {{ ui.renderProperty('webinar.invoice.form.datePaid.label'|trans, entity.datePaid ? entity.datePaid|oro_format_datetime : 'N/A') }}
+        </div>
+    </div>
+</div>

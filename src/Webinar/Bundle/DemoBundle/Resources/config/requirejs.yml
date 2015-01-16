@@ -1,0 +1,9 @@
+config:
+    map:
+        '*':
+            'orodashboard/js/widget-picker': 'webinardemo/js/widget-picker'
+        'webinardemo/js/widget-picker':
+            'orodashboard/js/widget-picker': 'orodashboard/js/widget-picker'
+
+    paths:
+        'webinardemo/js/widget-picker': 'bundles/webinardemo/js/widget-picker.js'
