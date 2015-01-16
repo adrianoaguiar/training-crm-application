@@ -1,5 +1,5 @@
 datagrid:
-    invoice-grid:
+    invoice-base-grid:
         source:
             type: orm
             acl_resource: webinar_account_invoice_view
@@ -14,18 +14,9 @@ datagrid:
             total:
                 label:         webinar.invoice.form.total.label
                 frontend_type: currency
-            tax:
-                label:         webinar.invoice.form.tax.label
-                frontend_type: percent
-            discount:
-                label:         webinar.invoice.form.discount.label
-                frontend_type: percent
             createdAt:
                 label:         oro.ui.created_at
                 frontend_type: datetime
-            datePaid:
-                label:         webinar.invoice.form.datePaid.label
-                frontend_type: date
         properties:
             id: ~
             view_link:
@@ -47,14 +38,8 @@ datagrid:
                     data_name: i.note
                 total:
                     data_name: i.total
-                tax:
-                    data_name: i.tax
-                discount:
-                    data_name: i.discount
                 createdAt:
                     data_name: i.createdAt
-                datePaid:
-                    data_name: i.datePaid
             default:
                 createdAt: DESC
         filters:
@@ -65,18 +50,9 @@ datagrid:
                 total:
                     type: string
                     data_name: i.total
-                tax:
-                    type: string
-                    data_name: i.tax
-                discount:
-                    type: string
-                    data_name: i.discount
                 createdAt:
                     type: datetime
                     data_name: i.createdAt
-                datePaid:
-                    type: date
-                    data_name: i.datePaid
         actions:
             view:
                 type:          navigate
@@ -97,3 +73,36 @@ datagrid:
                 label:         oro.grid.action.delete
                 icon:          trash
                 link:          delete_link
+
+
+    invoice-grid:
+        extends: invoice-base-grid
+        columns:
+            tax:
+                label:         webinar.invoice.form.tax.label
+                frontend_type: percent
+            discount:
+                label:         webinar.invoice.form.discount.label
+                frontend_type: percent
+            datePaid:
+                label:         webinar.invoice.form.datePaid.label
+                frontend_type: date
+        sorters:
+            columns:
+                tax:
+                    data_name: i.tax
+                discount:
+                    data_name: i.discount
+                datePaid:
+                    data_name: i.datePaid
+        filters:
+            columns:
+                tax:
+                    type: string
+                    data_name: i.tax
+                discount:
+                    type: string
+                    data_name: i.discount
+                datePaid:
+                    type: date
+                    data_name: i.datePaid

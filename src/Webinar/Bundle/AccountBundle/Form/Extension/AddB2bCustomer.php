@@ -33,11 +33,11 @@ class AddB2bCustomer extends AbstractTypeExtension
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-//        $resolver->setDefaults(
-//            [
-//                'validation_groups' => ['invoiced_account'],
-//            ]
-//        );
+        $resolver->setDefaults(
+            [
+                'validation_groups' => ['invoiced_account'],
+            ]
+        );
     }
 
     /**
