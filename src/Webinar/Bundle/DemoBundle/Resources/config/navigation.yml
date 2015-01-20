@@ -26,9 +26,7 @@ oro_menu_config:
                 customers_tab:
                     children:
                         ticket_list: ~
-                        sales_salesfunnel_list: ~
-                        lead_list: ~
-                        opportunity_list: ~
+
                 sales_tab:
                     children:
                         marketing_lists_list: ~

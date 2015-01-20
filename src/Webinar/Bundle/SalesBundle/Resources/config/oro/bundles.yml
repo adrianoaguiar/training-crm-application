@@ -1,0 +1,2 @@
+bundles:
+    - { name: Webinar\Bundle\SalesBundle\WebinarSalesBundle }

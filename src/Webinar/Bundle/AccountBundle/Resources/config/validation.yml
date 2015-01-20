@@ -11,13 +11,13 @@ Webinar\Bundle\AccountBundle\Entity\Invoice:
 OroCRM\Bundle\AccountBundle\Entity\Account:
     properties:
         name:
-            - NotBlank:     ~
+            - NotBlank:     { groups: [invoiced_account] }
             - Length:
-                min:        3
+                min:        10
                 max:        255
+                groups:     [invoiced_account]
         organization:
-            - NotBlank:     ~
-
+            - NotBlank:     { groups: [invoiced_account] }
         invoice:
             - NotBlank:     { groups: [invoiced_account] }
 

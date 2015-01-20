@@ -22,7 +22,6 @@ class WebinarAccountBundle implements Migration, OrderedMigrationInterface, Exte
     public function up(Schema $schema, QueryBag $queries)
     {
         /** Tables generation **/
-        $this->createInvoiceTable($schema);
         $this->extendAccountTable($schema);
     }
 
@@ -56,27 +55,6 @@ class WebinarAccountBundle implements Migration, OrderedMigrationInterface, Exte
             'note',
             ['extend' => ['owner' => ExtendScope::OWNER_CUSTOM, 'is_extend' => true]]
         );
-    }
-
-    /**
-     * Create webinar_invoice table
-     *
-     * @param Schema $schema
-     */
-    protected function createInvoiceTable(Schema $schema)
-    {
-        $table = $schema->createTable('webinar_invoice');
-
-        $table->addColumn('id', 'integer', ['autoincrement' => true]);
-        $table->addColumn('total', 'money', ['precision' => 19, 'scale' => 4, 'comment' => '(DC2Type:money)']);
-        $table->addColumn('discount', 'percent', ['comment' => '(DC2Type:percent)', 'notnull' => false]);
-        $table->addColumn('tax', 'percent', ['comment' => '(DC2Type:percent)', 'notnull' => false]);
-        $table->addColumn('note', 'string', ['length' => 255]);
-        $table->addColumn('datePaid', 'datetime', ['notnull' => false]);
-        $table->addColumn('created_at', 'datetime', []);
-        $table->addColumn('updated_at', 'datetime', []);
-
-        $table->setPrimaryKey(['id']);
     }
 
     /**

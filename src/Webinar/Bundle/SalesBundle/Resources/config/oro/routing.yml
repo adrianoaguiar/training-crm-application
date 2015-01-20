@@ -1,0 +1,4 @@
+orocrm_my_sales_bundle:
+    resource: "@!OroCRMSalesBundle/Controller"
+    type:     annotation
+

@@ -22,7 +22,8 @@ oro_menu_config:
                 customers_tab:
                     children:
                         invoice_list: ~
-                account_list: ~
+                account_list:
+                    merge_strategy: remove
 
 
 
