@@ -1,0 +1,20 @@
+{% extends 'OroActivityListBundle:ActivityList/js:activityItemTemplate.js.twig' %}
+{% set entityClass = 'OroCRM\\Bundle\\PartnerBundle\\Entity\\GitHubIssue' %}
+{% set entityName = oro_entity_config_value(entityClass, 'label')|trans %}
+
+{% block activityDetails %}
+    {{ entityName|raw }}
+    <%
+        var template = !!owner
+            ? {{ 'orocrm.partner.githubissue.created_by'|trans|json_encode|raw }}
+            : {{ 'orocrm.partner.githubissue.imported'|trans|json_encode|raw }};
+    %>
+    <%= _.template(template, { interpolate: /\{\{(.+?)\}\}/g })({
+        user: '<a class="user" href="' + owner_url + '">' +  _.escape(owner) + '</a>',
+        date: '<i class="date">' + createdAt + '</i>',
+    }) %>
+{% endblock %}
+
+{% block activityActions %}
+    {# No Actions #}
+{% endblock %}

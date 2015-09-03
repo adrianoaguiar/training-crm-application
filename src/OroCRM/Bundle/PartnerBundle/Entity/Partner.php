@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 
 use OroCRM\Bundle\PartnerBundle\Model\ExtendPartner;
@@ -27,7 +28,9 @@ use OroCRM\Bundle\AccountBundle\Entity\Account;
  *          "ownership"={
  *              "owner_type"="USER",
  *              "owner_field_name"="owner",
- *              "owner_column_name"="user_owner_id"
+ *              "owner_column_name"="user_owner_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
  *          },
  *          "security"={
  *              "type"="ACL",
@@ -45,6 +48,13 @@ class Partner extends ExtendPartner
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     protected $id;
 
@@ -56,6 +66,9 @@ class Partner extends ExtendPartner
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=80
      *          }
      *      }
      * )
@@ -70,6 +83,9 @@ class Partner extends ExtendPartner
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=70
      *          }
      *      }
      * )
@@ -85,6 +101,9 @@ class Partner extends ExtendPartner
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=60
      *          }
      *      }
      * )
@@ -99,6 +118,10 @@ class Partner extends ExtendPartner
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=90,
+     *              "short"=true
      *          }
      *      }
      * )
@@ -114,6 +137,9 @@ class Partner extends ExtendPartner
      *      defaultValues={
      *          "dataaudit"={
      *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=50
      *          }
      *      }
      * )
@@ -129,6 +155,14 @@ class Partner extends ExtendPartner
      */
     protected $gitHubAccounts;
 
+    /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $organization;
+
     public function __construct()
     {
         parent::__construct();
@@ -141,6 +175,17 @@ class Partner extends ExtendPartner
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Partner
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -283,6 +328,29 @@ class Partner extends ExtendPartner
     public function getGitHubAccounts()
     {
         return $this->gitHubAccounts;
+    }
+
+    /**
+     * Set organization
+     *
+     * @param Organization $organization
+     * @return Partner
+     */
+    public function setOrganization(Organization $organization = null)
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * Get organization
+     *
+     * @return Organization
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
     }
 
     /**

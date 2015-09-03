@@ -16,7 +16,11 @@
     ],
     "require": {
         "oro/platform": "1.x-dev",
-        "oro/crm": "1.x-dev"
+        "oro/crm": "1.x-dev",
+        "knplabs/github-api": "*"
+    },
+    "require-dev": {
+        "sensio/generator-bundle": "2.5.3"
     },
     "scripts": {
         "post-install-cmd": [

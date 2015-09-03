@@ -10,17 +10,22 @@ use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtension;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+
 use OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_0\OroCRMPartnerBundle;
-use OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_1\OroCRMPartnerExtensions;
+use OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_1\OroCRMPartnerBundle as OroCRMPartnerGitHub;
+use OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_2\OroCRMPartnerExtensions;
+use OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_3\OroCRMPartnerBundle as OroCRMPartnerIntegrationTransport;
 
 class OroPartnerBundleInstaller implements
     Installation,
     AttachmentExtensionAwareInterface,
     NoteExtensionAwareInterface,
-    ActivityExtensionAwareInterface
+    ActivityExtensionAwareInterface,
+    ExtendExtensionAwareInterface
 {
     /** @var AttachmentExtension */
     protected $attachmentExtension;
@@ -30,6 +35,9 @@ class OroPartnerBundleInstaller implements
 
     /** @var ActivityExtension */
     protected $activityExtension;
+
+    /** @var  ExtendExtension */
+    protected $extendExtension;
 
     /**
      * {@inheritdoc}
@@ -58,9 +66,17 @@ class OroPartnerBundleInstaller implements
     /**
      * {@inheritdoc}
      */
+    public function setExtendExtension(ExtendExtension $extendExtension)
+    {
+        $this->extendExtension = $extendExtension;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getMigrationVersion()
     {
-        return 'v1_1';
+        return 'v1_3';
     }
 
     /**
@@ -69,10 +85,15 @@ class OroPartnerBundleInstaller implements
     public function up(Schema $schema, QueryBag $queries)
     {
         OroCRMPartnerBundle::createPartnerTables($schema);
+        OroCRMPartnerGitHub::createGitHubAccountTable($schema);
+        OroCRMPartnerGitHub::createGitHubIssueTable($schema);
+        OroCRMPartnerIntegrationTransport::updateTransportTable($schema);
+
         $extension = new OroCRMPartnerExtensions();
         $extension->setAttachmentExtension($this->attachmentExtension);
         $extension->setActivityExtension($this->activityExtension);
         $extension->setNoteExtension($this->noteExtension);
+        $extension->setExtendExtension($this->extendExtension);
         $extension->up($schema, $queries);
     }
 }

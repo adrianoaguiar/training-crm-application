@@ -14,7 +14,9 @@ class RemoveCollaboratorTest extends AbstractCollaboratorActionTestCase
     protected function setUp()
     {
         parent::setUp();
+        $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $this->target = new RemoveCollaborator($this->contextAccessor, $this->manager);
+        $this->target->setDispatcher($eventDispatcher);
     }
 
     public function testExecute()

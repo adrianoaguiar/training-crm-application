@@ -11,8 +11,8 @@ use Oro\Bundle\NavigationBundle\Annotation\TitleTemplate;
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
-use OroCRM\Bundle\PartnerBundle\Entity\Partner;
 use OroCRM\Bundle\AccountBundle\Entity\Account;
+use OroCRM\Bundle\PartnerBundle\Entity\Partner;
 
 class PartnerController extends Controller
 {

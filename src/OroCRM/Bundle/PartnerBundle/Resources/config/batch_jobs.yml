@@ -1,0 +1,29 @@
+connector:
+    name: oro_importexport
+    jobs:
+        github_issue_import:
+            title: "Issue import from GitHub"
+            type:  import
+            steps:
+                import:
+                    title:     import
+                    class:     Oro\Bundle\BatchBundle\Step\ItemStep
+                    services:
+                        reader:    orocrm_partner.provider.github_issue_connector
+                        processor: oro_importexport.processor.import_delegate
+                        writer:    oro_integration.writer.persistent_batch_writer
+                    parameters:
+                        batch_size: 25
+        github_issue_export:
+            title: "Issue export to GitHub"
+            type:  export
+            steps:
+                export:
+                    title:     export
+                    class:     Oro\Bundle\BatchBundle\Step\ItemStep
+                    services:
+                        reader:    orocrm_partner.importexport.reader.entity
+                        processor: orocrm_partner.processor.export_issue
+                        writer:    orocrm_partner.importexport.writer.issue
+                    parameters:
+                        batch_size: 25

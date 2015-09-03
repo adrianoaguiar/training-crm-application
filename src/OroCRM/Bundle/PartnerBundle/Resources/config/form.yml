@@ -1,0 +1,101 @@
+parameters:
+    orocrm_partner.form.type.partner.class:                         OroCRM\Bundle\PartnerBundle\Form\Type\PartnerType
+    orocrm_partner.form.type.partner.api.class:                     OroCRM\Bundle\PartnerBundle\Form\Type\PartnerApiType
+    orocrm_partner.form.type.github_account.class:                  OroCRM\Bundle\PartnerBundle\Form\Type\GitHubAccountType
+    orocrm_partner.form.type.github_account_collection.class:       OroCRM\Bundle\PartnerBundle\Form\Type\GitHubAccountCollectionType
+    orocrm_partner.form.type.github_issue.class:                    OroCRM\Bundle\PartnerBundle\Form\Type\GitHubIssueType
+    orocrm_partner.form.handler.partner.class:                      OroCRM\Bundle\PartnerBundle\Form\Handler\PartnerHandler
+    orocrm_partner.form.handler.github_issue.class:                 OroCRM\Bundle\PartnerBundle\Form\Handler\GitHubIssueHandler
+
+    # Search handler
+    orocrm_partner.form.autocomplete.account.search_handler.class:  OroCRM\Bundle\PartnerBundle\Autocomplete\SearchHandler
+
+services:
+    # Form Types
+    orocrm_partner.form.type.partner:
+        class: %orocrm_partner.form.type.partner.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: orocrm_partner }
+
+    orocrm_partner.form.type.partner.api:
+        class: %orocrm_partner.form.type.partner.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: orocrm_partner_api }
+
+    orocrm_partner.form.type.partner_github_account:
+        class: %orocrm_partner.form.type.github_account.class%
+        tags:
+             - { name: form.type, alias: orocrm_partner_github_account }
+
+    orocrm_partner.form.type.partner_github_account_collection:
+        class: %orocrm_partner.form.type.github_account_collection.class%
+        tags:
+             - { name: form.type, alias: orocrm_partner_github_account_collection }
+
+    orocrm_partner.form.type.partner_github_issue:
+            class: %orocrm_partner.form.type.github_issue.class%
+            tags:
+                 - { name: form.type, alias: orocrm_partner_github_issue }
+
+    # Form Instances
+    orocrm_partner.form.partner:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: [orocrm_partner_form, orocrm_partner]
+
+    orocrm_partner.form.partner.api:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: [partner, orocrm_partner_api]
+
+    orocrm_partner.form.github_issue:
+        class: Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: [orocrm_partner_github_issue_form, orocrm_partner_github_issue]
+
+    # Form Handlers
+    orocrm_partner.form.handler.partner.api:
+        class:  %orocrm_partner.form.handler.partner.class%
+        scope: request
+        arguments:
+            - @orocrm_partner.form.partner.api
+            - @request
+            - @doctrine.orm.entity_manager
+
+    orocrm_partner.form.handler.partner:
+        class: %orocrm_partner.form.handler.partner.class%
+        scope: request
+        arguments:
+            - @orocrm_partner.form.partner
+            - @request
+            - @doctrine.orm.entity_manager
+
+    orocrm_partner.form.handler.github_issue:
+        class: %orocrm_partner.form.handler.github_issue.class%
+        scope: request
+        arguments:
+            - @orocrm_partner.form.github_issue
+            - @request
+            - @doctrine.orm.entity_manager
+            - @oro_activity.manager
+            - @oro_entity.routing_helper
+
+    # Auto-complete
+    orocrm_partner.form.autocomplete.account.search_handler:
+        class: %orocrm_partner.form.autocomplete.account.search_handler.class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @oro_security.acl_helper
+        tags:
+            - { name: oro_form.autocomplete.search_handler, alias: partners_accounts, acl_resource: orocrm_account_view }

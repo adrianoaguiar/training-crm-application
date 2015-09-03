@@ -11,7 +11,7 @@ use OroCRM\Bundle\PartnerBundle\Model\ExtendGitHubAccount;
 /**
  * @ORM\Entity()
  * @ORM\Table(
- *      name="orocrm_partner_git_hub_account",
+ *      name="orocrm_partner_github_account",
  *      indexes={@ORM\Index(name="github_account_create_idx", columns={"created_at"})}
  * )
  * @ORM\HasLifecycleCallbacks()
@@ -60,6 +60,13 @@ class GitHubAccount extends ExtendGitHubAccount
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=100, nullable=false)
+     * @ConfigField(
+     *  defaultValues={
+     *      "importexport"={
+     *          "identity"=true
+     *      }
+     *  }
+     * )
      */
     protected $username;
 

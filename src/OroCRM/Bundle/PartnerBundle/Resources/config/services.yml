@@ -1,94 +1,34 @@
 parameters:
+    # Entity
     orocrm_partner.partner.entity.class:                        OroCRM\Bundle\PartnerBundle\Entity\Partner
     orocrm_partner.partner.github_account.entity.class:         OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount
+    orocrm_partner.partner.github_issue.entity.class:           OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue
 
-    orocrm_partner.form.type.partner.class:                     OroCRM\Bundle\PartnerBundle\Form\Type\PartnerType
-    orocrm_partner.form.type.partner.api.class:                 OroCRM\Bundle\PartnerBundle\Form\Type\PartnerApiType
-    orocrm_partner.form.type.partner_git_hub.class:             OroCRM\Bundle\PartnerBundle\Form\Type\GitHubAccountType
-    orocrm_partner.form.type.partner_git_hub_collection.class:  OroCRM\Bundle\PartnerBundle\Form\Type\GitHubAccountCollectionType
-    orocrm_partner.form.handler.partner.class:                  OroCRM\Bundle\PartnerBundle\Form\Handler\PartnerHandler
-
+    # Manager
     orocrm_partner.partner.manager.api.class:                   Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
 
+    # Validator
     orocrm_partner.validator.unique_partner_account.class:      OroCRM\Bundle\PartnerBundle\Validator\Constraints\UniquePartnerAccountValidator
 
     # Config provider
     orocrm_partner.provider.configuration.class:                OroCRM\Bundle\PartnerBundle\Provider\ConfigurationProvider
 
     # GitHub integration
-    orocrm_partner.git_hub.client_factory.class:                OroCRM\Bundle\PartnerBundle\Model\GitHubClientFactory
-    orocrm_partner.git_hub.collaborator_manager.class:          OroCRM\Bundle\PartnerBundle\Model\GitHubCollaboratorManager
+    orocrm_partner.github.client_factory.class:                 OroCRM\Bundle\PartnerBundle\Model\GitHubClientFactory
+    orocrm_partner.github.collaborator_manager.class:           OroCRM\Bundle\PartnerBundle\Model\GitHubCollaboratorManager
 
     # Process actions
     orocrm_partner.action.add_collaborator.class:               OroCRM\Bundle\PartnerBundle\Model\Action\AddCollaborator
     orocrm_partner.action.remove_collaborator.class:            OroCRM\Bundle\PartnerBundle\Model\Action\RemoveCollaborator
 
-    #search handler
-    orocrm_partner.form.autocomplete.account.search_handler.class: OroCRM\Bundle\PartnerBundle\Autocomplete\SearchHandler
+    # Activity
+    orocrm_partner.activity_list.provider.class:                OroCRM\Bundle\PartnerBundle\Provider\GitHubIssueActivityListProvider
 
 services:
-    # Form Types
-    orocrm_partner.form.type.partner:
-        class: %orocrm_partner.form.type.partner.class%
-        arguments:
-            - @router
-            - @oro_locale.formatter.name
-            - @oro_security.security_facade
-        tags:
-            - { name: form.type, alias: orocrm_partner }
-
-    orocrm_partner.form.type.partner.api:
-        class: %orocrm_partner.form.type.partner.api.class%
-        arguments:
-            - @router
-            - @oro_locale.formatter.name
-            - @oro_security.security_facade
-        tags:
-            - { name: form.type, alias: orocrm_partner_api }
-
-    orocrm_partner.form.type.partner_git_hub:
-        class: %orocrm_partner.form.type.partner_git_hub.class%
-        tags:
-             - { name: form.type, alias: orocrm_partner_git_hub_account }
-
-    orocrm_partner.form.type.partner_git_hub_collection:
-        class: %orocrm_partner.form.type.partner_git_hub_collection.class%
-        tags:
-             - { name: form.type, alias: orocrm_partner_git_hub_account_collection }
-
-    # Form Instances
-    orocrm_partner.form.partner:
-        class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
-        arguments: [orocrm_partner_form, orocrm_partner]
-
-    orocrm_partner.form.partner.api:
-        class: Symfony\Component\Form\Form
-        factory_method: createNamed
-        factory_service: form.factory
-        arguments: [partner, orocrm_partner_api]
-
-    # Form Handlers
-    orocrm_partner.form.handler.partner.api:
-        class:  %orocrm_partner.form.handler.partner.class%
-        scope: request
-        arguments:
-            - @orocrm_partner.form.partner.api
-            - @request
-            - @doctrine.orm.entity_manager
-
-    orocrm_partner.form.handler.partner:
-        class: %orocrm_partner.form.handler.partner.class%
-        scope: request
-        arguments:
-            - @orocrm_partner.form.partner
-            - @request
-            - @doctrine.orm.entity_manager
-
     # Api Manager
     orocrm_partner.partner.manager.api:
         class: %orocrm_partner.partner.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
         arguments:
             - %orocrm_partner.partner.entity.class%
             - @doctrine.orm.entity_manager
@@ -108,21 +48,21 @@ services:
             - @oro_config.global
 
     # GitHub integration
-    orocrm_partner.git_hub.client_factory:
-        class: %orocrm_partner.git_hub.client_factory.class%
+    orocrm_partner.github.client_factory:
+        class: %orocrm_partner.github.client_factory.class%
 
-    orocrm_partner.git_hub.collaborator_manager:
-        class: %orocrm_partner.git_hub.collaborator_manager.class%
+    orocrm_partner.github.collaborator_manager:
+        class: %orocrm_partner.github.collaborator_manager.class%
         arguments:
             - @orocrm_partner.provider.configuration
-            - @orocrm_partner.git_hub.client_factory
+            - @orocrm_partner.github.client_factory
 
     # Process actions
     orocrm_partner.action.add_collaborator:
         class: %orocrm_partner.action.add_collaborator.class%
         arguments:
             - @oro_workflow.context_accessor
-            - @orocrm_partner.git_hub.collaborator_manager
+            - @orocrm_partner.github.collaborator_manager
         tags:
             - { name: oro_workflow.action, alias: orocrm_partner_add_github_collaborator }
 
@@ -130,16 +70,14 @@ services:
         class: %orocrm_partner.action.remove_collaborator.class%
         arguments:
             - @oro_workflow.context_accessor
-            - @orocrm_partner.git_hub.collaborator_manager
+            - @orocrm_partner.github.collaborator_manager
         tags:
             - { name: oro_workflow.action, alias: orocrm_partner_remove_github_collaborator }
 
-
-    #account search handler
-    orocrm_partner.form.autocomplete.account.search_handler:
-        class: %orocrm_partner.form.autocomplete.account.search_handler.class%
+    # Activity
+    orocrm_partner.activity_list.provider:
+        class: %orocrm_partner.activity_list.provider.class%
         arguments:
-            - @doctrine.orm.entity_manager
-            - @oro_security.acl_helper
+           - @oro_entity.doctrine_helper
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: partners_accounts, acl_resource: orocrm_account_view }
+           - {name: oro_activity_list.provider }

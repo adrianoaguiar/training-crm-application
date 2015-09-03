@@ -74,6 +74,7 @@ class LoadPartnerData extends AbstractFixture implements ContainerAwareInterface
         $statuses = $objectManager->getRepository('OroCRMPartnerBundle:PartnerStatus')->findAll();
         $usersCount = count($users);
         $statusesCount = count($statuses);
+        $organization = $this->getReference('default_organization');
 
         foreach ($accounts as $index => $account) {
             $partner = new Partner();
@@ -81,6 +82,7 @@ class LoadPartnerData extends AbstractFixture implements ContainerAwareInterface
             $partner->setOwner($users[rand(0, $usersCount - 1)]);
             $partner->setStatus($statuses[rand(0, $statusesCount - 1)]);
             $partner->setPartnerCondition(self::$fixtureConditions[$index]);
+            $partner->setOrganization($organization);
             $objectManager->persist($partner);
         }
 

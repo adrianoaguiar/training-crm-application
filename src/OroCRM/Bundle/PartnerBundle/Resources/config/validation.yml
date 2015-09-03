@@ -13,3 +13,10 @@ OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount:
             - NotBlank: ~
         email:
             - Email: ~
+
+OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue:
+    properties:
+        title:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~

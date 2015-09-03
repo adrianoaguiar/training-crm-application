@@ -14,7 +14,7 @@ class GitHubAccountCollectionType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'type'       => 'oro_partner_git_hub'
+                'type' => 'oro_partner_github'
             )
         );
     }
@@ -32,6 +32,6 @@ class GitHubAccountCollectionType extends AbstractType
      */
     public function getName()
     {
-        return 'orocrm_partner_git_hub_account_collection';
+        return 'orocrm_partner_github_account_collection';
     }
 }

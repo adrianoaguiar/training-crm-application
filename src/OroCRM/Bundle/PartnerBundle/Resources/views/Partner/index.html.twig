@@ -4,6 +4,15 @@
 {% set pageTitle = 'orocrm.partner.entity_plural_label'|trans %}
 
 {% block navButtons %}
+    {% include 'OroImportExportBundle:ImportExport:buttons.html.twig' with {
+        entity_class: entity_class,
+        exportProcessor: 'orocrm_partner',
+        exportTemplateProcessor: 'orocrm_partner',
+        importProcessor: 'orocrm_partner.add_or_replace',
+        importTitle: 'orocrm.partner.import'|trans,
+        dataGridName: gridName
+    } %}
+
     {% if resource_granted('orocrm_partner_create') %}
         <div class="btn-group">
             {{ UI.addButton({

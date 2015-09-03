@@ -1,0 +1,8 @@
+items:
+    orocrm_add_github_issue_button:
+        template: OroCRMPartnerBundle:GitHubIssue:activityButton.html.twig
+        acl: orocrm_partner_github_issue_create
+
+    orocrm_add_github_issue_link:
+        template: OroCRMPartnerBundle:GitHubIssue:activityLink.html.twig
+        acl: orocrm_partner_github_issue_create
