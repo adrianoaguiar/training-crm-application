@@ -118,6 +118,7 @@ datagrid:
                 label: orocrm.partner.datagrid.delete
                 icon: trash
 
+    # github accounts grid
     partner-github-accounts-grid:
         extended_entity_name: %orocrm_partner.partner.github_account.entity.class%
         source:
@@ -199,3 +200,50 @@ datagrid:
                 select:
                     - (SELECT count(p.id) FROM OroCRM\Bundle\PartnerBundle\Entity\Partner p WHERE p.account = a.id) as partners
                 having: partners = 0
+
+    activity-github-issue-grid:
+            source:
+                type: orm
+                acl_resource: orocrm_partner_github_issue_view
+                query:
+                    select:
+                        - githubIssue.id
+                        - githubIssue.title
+                        - githubIssue.description
+                        - githubIssue.createdAt
+                    from:
+                        - { table: %orocrm_partner.partner.github_issue.entity.class%, alias: githubIssue }
+                    join:
+                        left:
+                            - { join: githubIssue.owner, alias: owner }
+            columns:
+                title:
+                    label:         orocrm.partner.githubissue.title.label
+                description:
+                    label:         orocrm.partner.githubissue.description.label
+                createdAt:
+                    label:         orocrm.partner.githubissue.created_at.label
+                    frontend_type: datetime
+            sorters:
+                columns:
+                    title:
+                        data_name: githubIssue.title
+                    description:
+                        data_name: githubIssue.description
+                    createdAt:
+                        data_name: githubIssue.createdAt
+                default:
+                    dueDate: ASC
+            filters:
+                columns:
+                    title:
+                        type:      string
+                        data_name: githubIssue.title
+                    description:
+                        type:      string
+                        data_name: githubIssue.description
+                    createdAt:
+                        type:      datetime
+                        data_name: githubIssue.createdAt
+            properties:
+                id: ~

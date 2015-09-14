@@ -56,8 +56,8 @@ class SearchHandler implements SearchHandlerInterface
 
         $queryBuilder->from('OroCRMAccountBundle:Account', 'a')
             ->select('a')
-            ->where('p IS NULL')
             ->leftJoin('OroCRMPartnerBundle:Partner', 'p', 'WITH', 'a = p.account')
+            ->where('p.id IS NULL')
             ->setFirstResult($firstResult)
             ->setMaxResults($perPage)
             ->orderBy('a.name');

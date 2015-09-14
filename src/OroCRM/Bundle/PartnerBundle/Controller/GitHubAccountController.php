@@ -31,7 +31,7 @@ class GitHubAccountController extends Controller
 
     /**
      * @Route("/widget/partner-github-accounts/{id}",
-     *      name="orocrm_partner_git_hub_accounts_widget",
+     *      name="orocrm_partner_github_accounts_widget",
      *      requirements={"id"="\d+"}
      * )
      * @AclAncestor("orocrm_partner_view")

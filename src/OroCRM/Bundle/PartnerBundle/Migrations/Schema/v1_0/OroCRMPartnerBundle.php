@@ -25,12 +25,14 @@ class OroCRMPartnerBundle implements Migration
         $table->addColumn('account_id', 'integer', []);
         $table->addColumn('status', 'string', ['notnull' => false, 'length' => 16]);
         $table->addColumn('user_owner_id', 'integer', ['notnull' => false]);
+        $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addColumn('start_date', 'date', []);
         $table->addColumn('partner_condition', 'text', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
         $table->addUniqueIndex(['account_id'], 'UNIQ_3D7BBBC39B6B5FBA');
         $table->addIndex(['status'], 'IDX_3D7BBBC37B00651C', []);
         $table->addIndex(['user_owner_id'], 'IDX_3D7BBBC39EB185F9', []);
+        $table->addIndex(['organization_id'], 'IDX_3D7BBBC332C8A3DE', []);
         /** End of generate table orocrm_partner_status **/
 
         /** Generate table orocrm_partner_status **/
@@ -70,6 +72,12 @@ class OroCRMPartnerBundle implements Migration
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
             ['user_owner_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );

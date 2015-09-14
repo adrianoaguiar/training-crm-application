@@ -155,18 +155,15 @@ class GitHubCollaboratorManagerTest extends \PHPUnit_Framework_TestCase
         $this->configuration->expects($this->any())
             ->method('getOrganization')
             ->will($this->returnValue($organization));
+        $teamNames = array_map(
+            function ($team) {
+                return $team['name'];
+            },
+            $teams
+        );
         $this->configuration->expects($this->exactly($callsCount))
             ->method('getTeams')
-            ->will(
-                $this->returnValue(
-                    array_map(
-                        function ($team) {
-                            return $team['name'];
-                        },
-                        $teams
-                    )
-                )
-            );
+            ->will($this->returnValue($teamNames));
         $client = $this->getMock('Github\Client');
         $this->clientFactory->expects($this->once())
             ->method('createClient')
@@ -185,6 +182,7 @@ class GitHubCollaboratorManagerTest extends \PHPUnit_Framework_TestCase
             ->method('api')
             ->with('teams')
             ->will($this->returnValue($teamsAPI));
+
         return $teamsAPI;
     }
 

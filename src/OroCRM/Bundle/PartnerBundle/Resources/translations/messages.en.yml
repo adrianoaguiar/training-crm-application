@@ -8,6 +8,7 @@ orocrm:
         account.label:              Partner Account
         contract.label:             Contract File
         owner.label:                Owner
+        organization.label:         Organization
         start_date.label:           Partnership start date
         status.label:               Status
         partner_actions:            Partner actions
@@ -18,28 +19,59 @@ orocrm:
         datagrid.delete:            Delete
 
         githubaccount:
-          entity_plural_label:  Partner GitHub Accounts
-          entity_label:         Partner GitHub Account
-          id.label:             Id
-          created_at.label:     Created At
-          email.label:          Email
-          name.label:           Name
-          username.label:       Username
-          partner.label:        Partner
+            entity_plural_label:  Partner GitHub Accounts
+            entity_label:         Partner GitHub Account
+            id.label:             Id
+            created_at.label:     Created At
+            email.label:          Email
+            name.label:           Name
+            username.label:       Username
+            partner.label:        Partner
+
+        githubissue:
+            entity_plural_label:  GitHub Issues
+            entity_label:         GitHub Issue
+            id.label:             Id
+            number.label:         Issue Number
+            closed_at.label:      Closed At
+            created_at.label:     Created At
+            title.label:          Title
+            description.label:    Description
+            url.label:            Link
+            status.label:         Status
+            add_entity:           Add GitHub Issue
+            owner.label:          Owner
+            assigned_to.label:    Assignee
+            channel.label:        Integration Channel
+            remote_id.label:      GitHub Issue Id
+            created_by:           created by {{ user }}
+            imported:             created in GitHub
+
+        partnerstatus:
+            entity_plural_label:  Partner Statuses
+            entity_label:         Partner Status
+            label.label:          Label
+            name.label:           Name
+            order.label:          Order
 
         account:
             created_at.label:       Account Created
             updated_at.label:       Account Updated
 
+        partnerstatus:
+            name.label:             Name
+
         widgets:
             partner_information:    Partner Information
 
         form:
-            git_hub_accounts.label: GitHub Accounts
-            git_hub_account.label:  GitHub Account
+            github_accounts.label: GitHub Accounts
+            github_account.label:  GitHub Account
+            github_account.choose_account: Select GitHub Account...
 
         controller:
             partner_saved_message:  Partner saved
+            github_issue_saved_message: GitHub Issue saved
 
         system_configuration:
             api_token: API Token
@@ -47,5 +79,13 @@ orocrm:
             organization: Organization
             groups:
                 partner_settings: Partner Settings
-                git_hub_integration: GitHub Integration
-                git_hub_connection: Connection
+                github_integration: GitHub Integration
+                github_connection: Connection
+
+        channel_type.label: GitHub
+        transport:
+            rest:
+                label: GitHub REST API v3
+
+        connector:
+            issue.label: Issues

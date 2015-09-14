@@ -53,10 +53,10 @@ class PartnerType extends AbstractType
                 ]
             )->add(
                 'gitHubAccounts',
-                'orocrm_partner_git_hub_account_collection',
+                'orocrm_partner_github_account_collection',
                 array(
-                    'label'    => 'orocrm.partner.form.git_hub_account',
-                    'type'     => 'orocrm_partner_git_hub_account',
+                    'label'    => 'orocrm.partner.form.github_account',
+                    'type'     => 'orocrm_partner_github_account',
                     'required' => false,
                     'options'  => array('data_class' => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount')
                 )

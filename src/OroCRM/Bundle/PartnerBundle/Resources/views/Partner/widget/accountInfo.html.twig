@@ -17,14 +17,6 @@
 
             {{ UI.renderHtmlProperty('orocrm.account.name.label'|trans, accountData) }}
 
-            {% if account.billingAddress is not empty %}
-                {{ UI.renderHtmlProperty('orocrm.account.billing_address.label'|trans, address.renderAddress(account.billingAddress)) }}
-            {% endif %}
-
-            {% if account.shippingAddress is not empty %}
-                {{ UI.renderHtmlProperty('orocrm.account.shipping_address.label'|trans, address.renderAddress(account.shippingAddress)) }}
-            {% endif %}
-
         </div>
 
         <div class="responsive-block">

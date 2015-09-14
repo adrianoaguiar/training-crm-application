@@ -1,0 +1,170 @@
+parameters:
+    orocrm_partner.importexport.template_fixture.partner.class: OroCRM\Bundle\PartnerBundle\ImportExport\TemplateFixture\PartnerFixture
+
+    # Channel Type
+    orocrm_partner.provider.github_channel_type.class:          OroCRM\Bundle\PartnerBundle\Provider\GitHubChannelType
+
+    # Transport
+    orocrm_partner.provider.github_rest_transport.class:        OroCRM\Bundle\PartnerBundle\Provider\Transport\GitHubTransport
+    orocrm_partner.form.type.github_rest_transport.type.class:  OroCRM\Bundle\PartnerBundle\Form\Type\GitHubTransportType
+
+    # Connector
+    orocrm_partner.provider.issue_connector.class:              OroCRM\Bundle\PartnerBundle\Provider\Connector\IssueConnector
+
+    # Converter
+    orocrm_partner.data_converter.github_issue.class:           OroCRM\Bundle\PartnerBundle\ImportExport\Converter\GitHubIssueDataConverter
+    orocrm_partner.data_converter.github_account.class:         OroCRM\Bundle\PartnerBundle\ImportExport\Converter\GitHubAccountDataConverter
+
+    # Normalizers
+    orocrm_partner.importexport.normalizer.datetime.class:      OroCRM\Bundle\PartnerBundle\ImportExport\Serializer\DateTimeNormalizer
+
+    # Strategy
+    orocrm_partner.importexport.strategy.add_or_replace.class:  OroCRM\Bundle\PartnerBundle\ImportExport\Strategy\ImportStrategy
+
+    # Readers
+    orocrm_partner.importexport.reader.entity.class:            OroCRM\Bundle\PartnerBundle\ImportExport\Reader\EntityReader
+
+    # Writers
+    orocrm_partner.importexport.writer.abstract_export.class:   OroCRM\Bundle\PartnerBundle\ImportExport\Writer\AbstractExportWriter
+    orocrm_partner.importexport.writer.issue.class:             OroCRM\Bundle\PartnerBundle\ImportExport\Writer\IssueExportWriter
+
+    # Listeners
+    orocrm_partner.import_strategy.listener.class:              OroCRM\Bundle\PartnerBundle\EventListener\ImportStrategyListener
+
+services:
+    orocrm_partner.importexport.template_fixture.partner:
+        class: %orocrm_partner.importexport.template_fixture.partner.class%
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    # Converter
+    orocrm_partner.importexport.data_converter.partner:
+        parent: oro_importexport.data_converter.configurable
+
+    orocrm_partner.importexport.template_fixture.data_converter.partner:
+        parent: oro_importexport.data_converter.template_fixture.configurable
+
+    # Strategy
+    orocrm_partner.strategy.configurable_add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Export processor
+    orocrm_partner.importexport.processor.export:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@orocrm_partner.importexport.data_converter.partner]]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: %orocrm_partner.partner.entity.class%, alias: orocrm_partner }
+
+    orocrm_partner.importexport.processor.export_template:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@orocrm_partner.importexport.data_converter.partner]]
+        tags:
+            - { name: oro_importexport.processor, type: export_template, entity: %orocrm_partner.partner.entity.class%, alias: orocrm_partner }
+
+    # Import processor
+    orocrm_partner.importexport.processor.import.add_or_replace:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+            - [setDataConverter, [@orocrm_partner.importexport.data_converter.partner]]
+            - [setStrategy, [@orocrm_partner.strategy.configurable_add_or_replace]]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: %orocrm_partner.partner.entity.class%, alias: orocrm_partner.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: %orocrm_partner.partner.entity.class%, alias: orocrm_partner.add_or_replace }
+
+    # Integration
+    orocrm_partner.provider.github_channel_type:
+        class: %orocrm_partner.provider.github_channel_type.class%
+        tags:
+            - { name: oro_integration.channel, type: github }
+
+    orocrm_partner.provider.github_rest_transport:
+        class: %orocrm_partner.provider.github_rest_transport.class%
+        arguments:
+            - @orocrm_partner.github.client_factory
+        tags:
+            - { name: oro_integration.transport, type: rest, channel_type: github }
+
+    orocrm_partner.form.type.github_rest_transport.type:
+        class: %orocrm_partner.form.type.github_rest_transport.type.class%
+        arguments:
+          - @orocrm_partner.provider.github_rest_transport
+        tags:
+          - { name: form.type, alias: orocrm_partner_github_transport_form_type }
+
+    # Connectors
+    orocrm_partner.provider.github_issue_connector:
+        class: %orocrm_partner.provider.issue_connector.class%
+        arguments:
+          - @oro_importexport.context_registry
+          - @oro_integration.logger.strategy
+          - @oro_integration.provider.connector_context_mediator
+          - @doctrine
+        tags:
+            - { name: oro_integration.connector, type: github_issue, channel_type: github }
+
+    # Data converters
+    orocrm_partner.data_converter.github_account:
+        class: %orocrm_partner.data_converter.github_account.class%
+
+    orocrm_partner.data_converter.github_issue:
+        class: %orocrm_partner.data_converter.github_issue.class%
+        calls:
+            - [addNodeDataConverter, ['assignee', @orocrm_partner.data_converter.github_account]]
+
+    # Normalizers
+    orocrm_partner.importexport.normalizer.datetime:
+        class: %orocrm_partner.importexport.normalizer.datetime.class%
+        tags:
+            - { name: oro_importexport.normalizer }
+
+    # Strategy
+    orocrm_partner.importexport.strategy.add_or_replace:
+        class: %orocrm_partner.importexport.strategy.add_or_replace.class%
+        parent: oro_importexport.strategy.configurable_add_or_replace
+        calls:
+            - [setLogger, [@oro_integration.logger.strategy]]
+
+    # Processors
+    orocrm_partner.processor.import_issue:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+             - [setDataConverter, [@orocrm_partner.data_converter.github_issue]]
+             - [setStrategy, [@orocrm_partner.importexport.strategy.add_or_replace]]
+             - [setEntityName, [%orocrm_partner.partner.github_issue.entity.class%]]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: %orocrm_partner.partner.github_issue.entity.class%, alias: github}
+
+    orocrm_partner.processor.export_issue:
+        parent: oro_integration.importexport.processor.export
+        calls:
+            - [setDataConverter, [@orocrm_partner.data_converter.github_issue]]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: %orocrm_partner.partner.github_issue.entity.class%, alias: github_export }
+
+    # Readers
+    orocrm_partner.importexport.reader.entity:
+        class: %orocrm_partner.importexport.reader.entity.class%
+        parent:  oro_integration.reader.entity.by_id
+
+    # Writers
+    orocrm_partner.importexport.writer.abstract_export:
+        class: %orocrm_partner.importexport.writer.abstract_export.class%
+        parent: oro_integration.writer.persistent_batch_writer
+        abstract: true
+        calls:
+            - [setContextMediator, [@oro_integration.provider.connector_context_mediator]]
+
+    orocrm_partner.importexport.writer.issue:
+        class: %orocrm_partner.importexport.writer.issue.class%
+        parent: orocrm_partner.importexport.writer.abstract_export
+
+    # Listeners
+    orocrm_partner.import_strategy.listener:
+        class: %orocrm_partner.import_strategy.listener.class%
+        arguments:
+            - @oro_activity.manager
+            - @oro_integration.helper.default_owner_helper
+        tags:
+            - { name: kernel.event_listener, event: oro_importexport.strategy.process_after, method: onProcessAfter }

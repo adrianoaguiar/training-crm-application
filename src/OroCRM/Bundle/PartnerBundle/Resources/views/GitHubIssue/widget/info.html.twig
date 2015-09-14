@@ -1,0 +1,26 @@
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
+
+<div class="widget-content form-horizontal box-content row-fluid">
+    <div class="responsive-block">
+        {{ UI.renderProperty('orocrm.partner.githubissue.title.label'|trans, entity.title) }}
+        {{ UI.renderHtmlProperty('orocrm.partner.githubissue.description.label'|trans, entity.description|nl2br) }}
+        {{ UI.renderProperty('orocrm.partner.githubissue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}
+    </div>
+    {% if entity.number %}
+        <div class="responsive-block">
+            {% set issueLink = UI.link({
+                'label' : entity.url,
+                'title' : entity.number,
+                'path'  : entity.url
+            }) %}
+            {{ UI.renderHTMLProperty('orocrm.partner.githubissue.url.label'|trans, issueLink) }}
+            {% if entity.closedAt %}
+                {{ UI.renderProperty('orocrm.partner.githubissue.closed_at.label'|trans, entity.closedAt|oro_format_datetime) }}
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="responsive-block">
+        {{ entityConfig.renderDynamicFields(entity) }}
+    </div>
+</div>

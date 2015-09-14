@@ -7,10 +7,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="orocrm_partner_status")
  * @Gedmo\TranslationEntity(class="OroCRM\Bundle\PartnerBundle\Entity\PartnerStatusTranslation")
+ * @Config(
+ *      defaultValues={
+ *          "grouping"={
+ *              "groups"={"dictionary"}
+ *          }
+ *      }
+ * )
  */
 class PartnerStatus implements Translatable
 {
@@ -22,6 +32,13 @@ class PartnerStatus implements Translatable
      *
      * @ORM\Id
      * @ORM\Column(name="name", type="string", length=16)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     protected $name;
 

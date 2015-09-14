@@ -1,6 +1,6 @@
 <?php
 
-namespace OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_1;
+namespace OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_2;
 
 use Doctrine\DBAL\Schema\Schema;
 
@@ -16,11 +16,16 @@ use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtension;
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterface;
 
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtension;
+use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
+
 class OroCRMPartnerExtensions implements
     Migration,
     AttachmentExtensionAwareInterface,
     NoteExtensionAwareInterface,
-    ActivityExtensionAwareInterface
+    ActivityExtensionAwareInterface,
+    ExtendExtensionAwareInterface
 {
     /** @var AttachmentExtension */
     protected $attachmentExtension;
@@ -30,6 +35,9 @@ class OroCRMPartnerExtensions implements
 
     /** @var ActivityExtension */
     protected $activityExtension;
+
+    /** @var  ExtendExtension */
+    protected $extendExtension;
 
     /**
      * {@inheritdoc}
@@ -58,9 +66,17 @@ class OroCRMPartnerExtensions implements
     /**
      * {@inheritdoc}
      */
+    public function setExtendExtension(ExtendExtension $extendExtension)
+    {
+        $this->extendExtension = $extendExtension;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->attachmentExtension->addFileRelation($schema, 'orocrm_partner', 'contract', 'file', [], 7);
+        $this->attachmentExtension->addFileRelation($schema, 'orocrm_partner', 'contract', [], 7);
 
         $this->attachmentExtension->addAttachmentAssociation(
             $schema,
@@ -83,5 +99,18 @@ class OroCRMPartnerExtensions implements
         $this->noteExtension->addNoteAssociation($schema, 'orocrm_partner');
 
         $this->activityExtension->addActivityAssociation($schema, 'oro_email', 'orocrm_partner');
+        $this->activityExtension->addActivityAssociation($schema, 'orocrm_partner_github_issue', 'orocrm_partner');
+
+        $this->extendExtension->addEnumField(
+            $schema,
+            $schema->getTable('orocrm_partner_github_issue'),
+            'status', // field name
+            'github_issue_status', // enum code
+            false, // only one option can be selected
+            false, // an administrator can add new options and remove existing ones
+            [
+                'extend' => ['owner' => ExtendScope::OWNER_CUSTOM]
+            ]
+        );
     }
 }
