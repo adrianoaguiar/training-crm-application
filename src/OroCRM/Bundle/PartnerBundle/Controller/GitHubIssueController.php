@@ -3,6 +3,7 @@
 namespace OroCRM\Bundle\PartnerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -11,7 +12,6 @@ use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 
 use OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Route("/github-issue")
@@ -25,7 +25,7 @@ class GitHubIssueController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -35,7 +35,7 @@ class GitHubIssueController extends Controller
      */
     public function infoAction(GitHubIssue $entity)
     {
-        return array('entity' => $entity);
+        return ['entity' => $entity];
     }
 
     /**
@@ -48,9 +48,9 @@ class GitHubIssueController extends Controller
      */
     public function activityAction($entityClass, $entityId)
     {
-        return array(
+        return [
             'entity' => $this->get('oro_entity.routing_helper')->getEntity($entityClass, $entityId)
-        );
+        ];
     }
 
     /**
@@ -117,11 +117,11 @@ class GitHubIssueController extends Controller
             $saved = true;
         }
 
-        return array(
+        return [
             'entity'     => $entity,
             'saved'      => $saved,
             'form'       => $this->get('orocrm_partner.form.handler.github_issue')->getForm()->createView(),
             'formAction' => $formAction
-        );
+        ];
     }
 }
