@@ -16,7 +16,6 @@ parameters:
     orocrm_partner.data_converter.github_account.class:         OroCRM\Bundle\PartnerBundle\ImportExport\Converter\GitHubAccountDataConverter
 
     # Normalizers
-    orocrm_partner.importexport.normalizer.issue.class:         OroCRM\Bundle\PartnerBundle\ImportExport\Serializer\IssueNormalizer
     orocrm_partner.importexport.normalizer.datetime.class:      OroCRM\Bundle\PartnerBundle\ImportExport\Serializer\DateTimeNormalizer
 
     # Strategy
@@ -115,14 +114,6 @@ services:
             - [addNodeDataConverter, ['assignee', @orocrm_partner.data_converter.github_account]]
 
     # Normalizers
-    orocrm_partner.importexport.normalizer.issue:
-        class: %orocrm_partner.importexport.normalizer.issue.class%
-        arguments:
-            - @oro_importexport.field.field_helper
-            - @doctrine
-        tags:
-            - { name: oro_importexport.normalizer }
-
     orocrm_partner.importexport.normalizer.datetime:
         class: %orocrm_partner.importexport.normalizer.datetime.class%
         tags:

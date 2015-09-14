@@ -19,6 +19,16 @@ use Symfony\Component\HttpFoundation\Request;
 class GitHubIssueController extends Controller
 {
     /**
+     * @Route("/", name="orocrm_github_issue_index")
+     * @AclAncestor("orocrm_partner_view")
+     * @Template
+     */
+    public function indexAction()
+    {
+        return array();
+    }
+
+    /**
      * @Route("/widget/info/{id}", name="orocrm_partner_github_issue_widget_info", requirements={"id"="\d+"})
      * @Template
      * @AclAncestor("orocrm_partner_github_issue_view")

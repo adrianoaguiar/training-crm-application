@@ -4,7 +4,7 @@ orocrm:
         entity_label:               Partner
         partner_condition.label:    Condition
         id.label:                   Id
-        github_accounts.label:      Partner GitHub Accounts
+        git_hub_accounts.label:     Partner GitHub Accounts
         account.label:              Partner Account
         contract.label:             Contract File
         owner.label:                Owner
@@ -41,12 +41,18 @@ orocrm:
             status.label:         Status
             add_entity:           Add GitHub Issue
             owner.label:          Owner
+            assigned_to.label:    Assignee
+            channel.label:        Integration Channel
+            remote_id.label:      GitHub Issue Id
             created_by:           created by {{ user }}
             imported:             created in GitHub
 
         partnerstatus:
             entity_plural_label:  Partner Statuses
             entity_label:         Partner Status
+            label.label:          Label
+            name.label:           Name
+            order.label:          Order
 
         account:
             created_at.label:       Account Created
