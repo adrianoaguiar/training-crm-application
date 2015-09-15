@@ -89,3 +89,8 @@ orocrm:
 
         connector:
             issue.label: Issues
+
+        github_transport:
+            token.label:        API Token
+            organization.label: Organization
+            repository.label:   Repository

@@ -49,14 +49,6 @@ abstract class AbstractExportWriter extends PersistentBatchWriter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function write(array $items)
-    {
-        parent::write($items);
-    }
-
-    /**
      * @param int $id
      * @return object
      */
