@@ -8,7 +8,7 @@
         <div class="responsive-block">
 
             {%- set accountData -%}
-                {%- if resource_granted('orocrm_account_view') -%}
+                {%- if resource_granted('VIEW', account) -%}
                     <a href="{{ path('orocrm_account_view', {'id': account.id}) }}">{{ account.name }}</a>
                 {%- else -%}
                     {{ account.name }}

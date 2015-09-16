@@ -39,7 +39,7 @@ class GitHubAccountController extends Controller
      */
     public function partnerGitHubAccountsAction(Partner $partner)
     {
-        return array('partner' => $partner);
+        return array('gitHubAccounts' => $partner->getGitHubAccounts());
     }
 
     /**
