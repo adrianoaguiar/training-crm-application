@@ -1,5 +1,4 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
-{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
 {% set name = entity.account.name|default('N/A') %}
 {% oro_title_set({params : {"%partner.name%": name} }) %}
@@ -46,28 +45,17 @@
     {% endset %}
 
     {% set gitHubAccountsWidget %}
-        {{ oro_widget_render({
-            'widgetType': 'block',
-            'contentClasses': [],
-            'url': path('orocrm_partner_github_accounts_widget', {id: entity.id}),
-            'title': 'orocrm.partner.form.github_accounts.label'|trans
-        }) }}
+        <div class="githubaccount-widget-wrapper">
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'contentClasses': [],
+                'url': path('orocrm_partner_github_accounts_widget', {id: entity.id}),
+                'title': 'orocrm.partner.form.github_accounts.label'|trans
+            }) }}
+        </div>
     {% endset %}
 
-    {% set generalSectionBlock = [{'data' : [partnerInformationWidget]}]%}
-    {% if gitHubAccountsWidget|striptags|trim is not empty %}
-        {% set generalSectionBlock = generalSectionBlock|merge([{'data' : [gitHubAccountsWidget]}])%}
-    {% endif %}
-
-    {% set dataBlocks = [
-        {
-            'title': 'orocrm.partner.sections.general'|trans,
-            'class': 'active',
-            'subblocks': generalSectionBlock
-        }
-    ] %}
-
-    {% set partnerInformationWidget %}
+    {% set accountInformationWidget %}
         {{ oro_widget_render({
             'widgetType': 'block',
             'title': 'orocrm.account.widgets.account_information'|trans,
@@ -75,16 +63,22 @@
         }) }}
     {% endset %}
 
-    {% set accountSectionBlock = [
+    {% set dataBlocks = [
         {
-            'title': 'orocrm.partner.sections.account'|trans,
+            'title': 'orocrm.partner.sections.general'|trans,
+            'class': 'active',
             'subblocks': [{
                 'data': [partnerInformationWidget]
+            }, {
+                'data': [gitHubAccountsWidget]
+            }]
+        }, {
+            'title': 'orocrm.partner.sections.account'|trans,
+            'subblocks': [{
+                'data': [accountInformationWidget]
             }]
         }
     ] %}
-
-    {% set dataBlocks = dataBlocks|merge(accountSectionBlock) %}
 
     {% set id = 'partnerView' %}
     {% set data = {'dataBlocks': dataBlocks} %}
