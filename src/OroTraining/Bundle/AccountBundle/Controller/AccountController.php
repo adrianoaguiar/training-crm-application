@@ -16,24 +16,6 @@ use OroCRM\Bundle\AccountBundle\Controller\AccountController as OriginalControll
 class AccountController extends OriginalController
 {
     /**
-     * @Route("/view/{id}", name="orocrm_account_view", requirements={"id"="\d+"})
-     * @Acl(
-     *      id="orocrm_account_view",
-     *      type="entity",
-     *      permission="VIEW",
-     *      class="OroCRMAccountBundle:Account"
-     * )
-     * @Template()
-     */
-    public function viewAction(Account $account)
-    {
-        $result = parent::viewAction($account);
-        $result['partners'] = $this->getPartners($account);
-
-        return $result;
-    }
-
-    /**
      * @Route(
      *      "/widget/partners/{id}",
      *      name="orotraining_account_widget_partners",
@@ -76,7 +58,7 @@ class AccountController extends OriginalController
 
         return $repository->createQueryBuilder('gitHubAccount')
                 ->select('gitHubAccount')
-                ->leftJoin('gitHubAccount.partner', 'partner', 'WITH', 'partner.account = :account')
+                ->innerJoin('gitHubAccount.partner', 'partner', 'WITH', 'partner.account = :account')
                 ->setParameter('account', $account)
                 ->getQuery()
                 ->execute();

@@ -35,7 +35,7 @@ class GitHubAccountController extends Controller
      *      requirements={"id"="\d+"}
      * )
      * @AclAncestor("orocrm_partner_view")
-     * @Template
+     * @Template("OroCRMPartnerBundle:GitHubAccount:gitHubAccounts.html.twig")
      */
     public function partnerGitHubAccountsAction(Partner $partner)
     {

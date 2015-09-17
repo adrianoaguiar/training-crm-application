@@ -30,11 +30,13 @@
     {# Customization starts here #}
     {% if resource_granted('orocrm_partner_view') %}
         {% set gitHubAccountsInformationWidget %}
-            {{ oro_widget_render({
-                'widgetType': 'block',
-                'url': path('orotraining_account_widget_partners', {id: entity.id}),
-                'title': 'orotraining.account.widgets.account_github_accounts'|trans
-            }) }}
+            <div class="githubaccount-widget-wrapper">
+                {{ oro_widget_render({
+                    'widgetType': 'block',
+                    'url': path('orotraining_account_widget_partners', {id: entity.id}),
+                    'title': 'orotraining.account.widgets.account_github_accounts'|trans
+                }) }}
+            </div>
         {% endset %}
 
         {% set generalSectionBlocks = generalSectionBlocks|merge(

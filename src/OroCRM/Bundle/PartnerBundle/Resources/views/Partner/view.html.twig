@@ -1,5 +1,4 @@
 {% extends 'OroUIBundle:actions:view.html.twig' %}
-{% import 'OroEntityConfigBundle::macros.html.twig' as entityConfig %}
 
 {% set name = entity.account.name|default('N/A') %}
 {% oro_title_set({params : {"%partner.name%": name} }) %}
@@ -46,12 +45,14 @@
     {% endset %}
 
     {% set gitHubAccountsWidget %}
-        {{ oro_widget_render({
-            'widgetType': 'block',
-            'contentClasses': [],
-            'url': path('orocrm_partner_github_accounts_widget', {id: entity.id}),
-            'title': 'orocrm.partner.form.github_accounts.label'|trans
-        }) }}
+        <div class="githubaccount-widget-wrapper">
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'contentClasses': [],
+                'url': path('orocrm_partner_github_accounts_widget', {id: entity.id}),
+                'title': 'orocrm.partner.form.github_accounts.label'|trans
+            }) }}
+        </div>
     {% endset %}
 
     {% set accountInformationWidget %}
