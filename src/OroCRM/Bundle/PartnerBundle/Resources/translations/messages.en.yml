@@ -19,14 +19,16 @@ orocrm:
         datagrid.delete:            Delete
 
         githubaccount:
-            entity_plural_label:  Partner GitHub Accounts
-            entity_label:         Partner GitHub Account
-            id.label:             Id
-            created_at.label:     Created At
-            email.label:          Email
-            name.label:           Name
-            username.label:       Username
-            partner.label:        Partner
+            entity_plural_label:        Partner GitHub Accounts
+            entity_label:               Partner GitHub Account
+            id.label:                   Id
+            created_at.label:           Created At
+            email.label:                Email
+            name.label:                 Name
+            username.label:             Username
+            partner.label:              Partner
+            no_githubaccounts_exist:    No GitHub accounts exist
+            open_on_github:             Open account page on GitHub
 
         githubissue:
             entity_plural_label:  GitHub Issues

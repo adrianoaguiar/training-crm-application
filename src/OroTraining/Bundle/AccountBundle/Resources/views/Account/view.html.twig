@@ -1,0 +1,81 @@
+{% extends '!OroCRMAccountBundle:Account:view.html.twig' %}
+
+{% block content_data %}
+    {% set accountInformationWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'title': 'orocrm.account.widgets.account_information'|trans,
+            'url': path('orocrm_account_widget_info', {id: entity.id})
+        }) }}
+    {% endset %}
+
+    {% set generalSectionBlocks = [{'data' : [accountInformationWidget]}]%}
+
+    {% if resource_granted('orocrm_contact_view') %}
+        {% set contactsInformationWidget %}
+            <div class="contact-widget-wrapper">
+                {{ oro_widget_render({
+                    'widgetType': 'block',
+                    'url': path('orocrm_account_widget_contacts', {id: entity.id}),
+                    'title': 'orocrm.contact.widgets.account_contacts'|trans
+                }) }}
+            </div>
+        {% endset %}
+
+        {% set generalSectionBlocks = generalSectionBlocks|merge(
+            [{'data': [contactsInformationWidget]}]
+        ) %}
+    {% endif %}
+
+    {# Customization starts here #}
+    {% if resource_granted('orocrm_partner_view') %}
+        {% set gitHubAccountsInformationWidget %}
+            <div class="githubaccount-widget-wrapper">
+                {{ oro_widget_render({
+                    'widgetType': 'block',
+                    'url': path('orotraining_account_widget_partners', {id: entity.id}),
+                    'title': 'orotraining.account.widgets.account_github_accounts'|trans
+                }) }}
+            </div>
+        {% endset %}
+
+        {% set generalSectionBlocks = generalSectionBlocks|merge(
+            [{'data': [gitHubAccountsInformationWidget]}]
+        ) %}
+    {% endif %}
+    {# Customization ends here #}
+
+    {% set dataBlocks = [
+        {
+            'title': 'orocrm.account.sections.general'|trans,
+            'class': 'active',
+            'subblocks': generalSectionBlocks
+        }
+    ] %}
+
+    {# Render account channels #}
+    {% for channel in channels %}
+        {%- set accountChannelInfoSection -%}
+            {% spaceless %}
+                {% set placeHolderName = 'orocrm_account_channel_info_' ~ channel.channelType %}
+                {{ placeholder(placeHolderName, {'accountId': entity.id, 'channelId': channel.id}) }}
+            {% endspaceless %}
+        {%- endset -%}
+        {% if accountChannelInfoSection|striptags|trim is not empty %}
+            {% set dataBlocks = dataBlocks|merge([
+                {
+                    'title': channel.name,
+                    'priority': 255,
+                    'subblocks': [
+                        {'data' : [accountChannelInfoSection]}
+                    ]
+                }
+            ]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% set id = 'accountView' %}
+    {% set data = {'dataBlocks': dataBlocks} %}
+
+    {{ render_block('OroUIBundle:actions:view.html.twig', 'content_data') }}
+{% endblock content_data %}

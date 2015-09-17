@@ -15,12 +15,12 @@
 {% endblock %}
 
 {% block pageHeader %}
-    {% if form.vars.value.id %}
+    {% if entity.id %}
         {% set breadcrumbs = {
-            'entity':      form.vars.value,
-            'indexPath':   path('orocrm_partner_index'),
-            'indexLabel': 'orocrm.partner.entity_plural_label'|trans,
-            'entityTitle': name
+                'entity':      form.vars.value,
+                'indexPath':   path('orocrm_partner_index'),
+                'indexLabel': 'orocrm.partner.entity_plural_label'|trans,
+                'entityTitle': name
             }
         %}
         {{ parent() }}
