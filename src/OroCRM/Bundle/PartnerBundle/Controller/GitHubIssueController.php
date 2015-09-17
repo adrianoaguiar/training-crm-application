@@ -71,7 +71,7 @@ class GitHubIssueController extends Controller
         $formAction = $this->get('oro_entity.routing_helper')
             ->generateUrlByRequest('orocrm_partner_github_issue_create', $request);
 
-        return $this->update($entity, $formAction);
+        return $this->update($entity, $formAction, $request);
     }
 
     /**
@@ -85,25 +85,26 @@ class GitHubIssueController extends Controller
      *      group_name=""
      * )
      */
-    public function updateAction(GitHubIssue $entity)
+    public function updateAction(GitHubIssue $entity, Request $request)
     {
         $formAction = $this->get('router')->generate('orocrm_partner_github_issue_update', ['id' => $entity->getId()]);
 
-        return $this->update($entity, $formAction);
+        return $this->update($entity, $formAction, $request);
     }
 
     /**
      * @param GitHubIssue $entity
      * @param string      $formAction
+     * @param Request     $request
      *
      * @return array
      */
-    protected function update(GitHubIssue $entity, $formAction)
+    protected function update(GitHubIssue $entity, $formAction, Request $request)
     {
         $saved = false;
 
         if ($this->get('orocrm_partner.form.handler.github_issue')->process($entity)) {
-            if (!$this->getRequest()->get('_widgetContainer')) {
+            if (!$request->get('_widgetContainer')) {
                 $this->get('session')->getFlashBag()->add(
                     'success',
                     $this->get('translator')->trans('orocrm.partner.controller.github_issue_saved_message')
