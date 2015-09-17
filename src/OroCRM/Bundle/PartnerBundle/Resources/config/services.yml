@@ -80,4 +80,4 @@ services:
         arguments:
            - @oro_entity.doctrine_helper
         tags:
-           - {name: oro_activity_list.provider }
+           - { name: oro_activity_list.provider }
