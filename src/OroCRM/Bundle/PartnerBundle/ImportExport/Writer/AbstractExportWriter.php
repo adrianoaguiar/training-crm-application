@@ -49,14 +49,27 @@ abstract class AbstractExportWriter extends PersistentBatchWriter
     }
 
     /**
-     * @param int $id
      * @return object
      */
-    protected function getEntity($id)
+    protected function getEntity()
     {
-        $className = $this->getContext()->getOption('entityName');
-        $entity = $this->registry->getManager()->find($className, $id);
+        if (!$this->getContext()->hasOption('entity')) {
+            throw new \InvalidArgumentException('Option "entity" was not configured');
+        }
+
+        $entity = $this->getContext()->getOption('entity');
+        if (!$entity) {
+            throw new \InvalidArgumentException('Missing entity in context');
+        }
 
         return $entity;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTwoWaySyncStrategy()
+    {
+        return (string)$this->getContext()->getOption('twoWaySyncStrategy');
     }
 }

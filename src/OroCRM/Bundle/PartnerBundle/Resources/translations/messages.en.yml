@@ -39,6 +39,7 @@ orocrm:
             description.label:    Description
             url.label:            Link
             status.label:         Status
+            update_entity:        Update Issue
             add_entity:           Add GitHub Issue
             owner.label:          Owner
             assigned_to.label:    Assignee

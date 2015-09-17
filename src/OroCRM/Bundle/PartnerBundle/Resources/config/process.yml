@@ -52,6 +52,40 @@ definitions:
                         parameters: [$.old]
                     - @orocrm_partner_add_github_collaborator: [$.new]
 
+    github_issue_export:
+        label:   'Export Issues to GitHub'
+        enabled: true
+        entity:  OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue
+        order:   20
+        actions_configuration:
+            - @call_method:
+                attribute: $.isTwoWaySyncEnabled
+                object: $channel.synchronizationSettings
+                method: 'offsetGetOr'
+                method_parameters: ['isTwoWaySyncEnabled', false]
+            - @call_method:
+                attribute: $.twoWaySyncStrategy
+                object: $channel.synchronizationSettings
+                method: 'offsetGetOr'
+                method_parameters: ['syncPriority']
+            - @tree:
+                conditions:
+                    @and:
+                        - @equal: [$channel.enabled, true]
+                        - @equal: [$.isTwoWaySyncEnabled, true]
+                actions:
+                    - @execute_job:
+                        jobType: export
+                        jobName: github_issue_export
+                        configuration:
+                            channel: $channel.id
+                            entity: $.data
+                            entityName: OroCRM\PartnerB
+                            twoWaySyncStrategy: $.twoWaySyncStrategy
+                            writer_skip_clear: true
+                            processorAlias: github_issue # to enable normalizers
+                        attribute: $.jobResult
+
 triggers:
     partner_update:
         -
@@ -74,3 +108,9 @@ triggers:
         -
             event: delete
             queued: true
+
+    github_issue_export:
+        -
+            event:    update
+            priority: 10
+            queued:   true

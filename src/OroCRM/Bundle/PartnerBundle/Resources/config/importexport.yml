@@ -22,7 +22,7 @@ parameters:
     orocrm_partner.importexport.strategy.add_or_replace.class:  OroCRM\Bundle\PartnerBundle\ImportExport\Strategy\ImportStrategy
 
     # Readers
-    orocrm_partner.importexport.reader.entity.class:            OroCRM\Bundle\PartnerBundle\ImportExport\Reader\EntityReader
+    orocrm_partner.importexport.reader.entity.class:            OroCRM\Bundle\PartnerBundle\ImportExport\Reader\ContextOptionReader
 
     # Writers
     orocrm_partner.importexport.writer.abstract_export.class:   OroCRM\Bundle\PartnerBundle\ImportExport\Writer\AbstractExportWriter
@@ -132,7 +132,6 @@ services:
         calls:
              - [setDataConverter, [@orocrm_partner.data_converter.github_issue]]
              - [setStrategy, [@orocrm_partner.importexport.strategy.add_or_replace]]
-             - [setEntityName, [%orocrm_partner.partner.github_issue.entity.class%]]
         tags:
             - { name: oro_importexport.processor, type: import, entity: %orocrm_partner.partner.github_issue.entity.class%, alias: github}
 
@@ -145,8 +144,11 @@ services:
 
     # Readers
     orocrm_partner.importexport.reader.entity:
-        class: %orocrm_partner.importexport.reader.entity.class%
-        parent:  oro_integration.reader.entity.by_id
+        class: %orocrm_magento.importexport.reader.entity.class%
+        arguments:
+            - @oro_importexport.context_registry
+        calls:
+            - [setContextKey, ['entity']]
 
     # Writers
     orocrm_partner.importexport.writer.abstract_export:

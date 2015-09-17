@@ -2,12 +2,15 @@
 
 namespace OroCRM\Bundle\PartnerBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GitHubIssueType extends AbstractType
 {
+    const INTEGRATION_TYPE = 'github';
+
     /**
      * {@inheritdoc}
      */
@@ -35,8 +38,11 @@ class GitHubIssueType extends AbstractType
                 [
                     'required' => true,
                     'label'    => 'orocrm.partner.form.github_account.label',
-                    'class'    => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount'
+                    'class'    => 'OroCRMPartnerBundle:GitHubAccount'
                 ]
+            )->add(
+                'channel',
+                'oro_integration_select'
             );
     }
 
@@ -47,7 +53,7 @@ class GitHubIssueType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue'
+                'data_class' => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue',
             )
         );
     }
