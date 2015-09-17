@@ -7,13 +7,20 @@
         {% endfor %}
     </div>
 </div>
-
+<script type="text/javascript">
+    require(['orocrm/partner/widgets/github-accounts-widget'], function(GitHubAccountsWidget){
+        GitHubAccountsWidget.init();
+    });
+</script>
 {% macro render_contact_box(gitHubAccount) %}
     {% import 'OroUIBundle::macros.html.twig' as UI %}
     {% import 'OroEmailBundle::actions.html.twig' as EmailActions %}
     <div class="githubaccount-box">
         <div class="githubaccount-box-row">
-            <a class="username" href="https://github.com/{{ gitHubAccount.username }}" target="_blank">
+            <a class="githubaccount-box-link githubaccount-box-username-link"
+               href="https://github.com/{{ gitHubAccount.username }}"
+               title="{{ "orocrm.partner.githubaccount.open_on_github"|trans }}"
+               target="_blank">
                 {{ gitHubAccount.username }}
             </a>
         </div>

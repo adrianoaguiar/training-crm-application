@@ -28,6 +28,7 @@ orocrm:
             username.label:             Username
             partner.label:              Partner
             no_githubaccounts_exist:    No GitHub accounts exist
+            open_on_github:             Open account page on GitHub
 
         githubissue:
             entity_plural_label:  GitHub Issues

@@ -1,0 +1,3 @@
+config:
+    paths:
+        'orocrm/partner/widgets/github-accounts-widget': 'bundles/orocrmpartner/js/widgets/github-accounts-widget.js'
