@@ -7,7 +7,7 @@
         {{ UI.renderHtmlProperty('orocrm.partner.githubissue.description.label'|trans, entity.description|nl2br) }}
         {{ UI.renderProperty('orocrm.partner.githubissue.created_at.label'|trans, entity.createdAt|oro_format_datetime) }}
     </div>
-    {% if entity.number %}
+    {% if entity.url %}
         <div class="responsive-block">
             {% set issueLink = UI.link({
                 'label' : entity.url,

@@ -30,6 +30,7 @@ class IssueExportWriter extends AbstractExportWriter
             if ($entity && isset($issueData[self::NUMBER_KEY])) {
                 // We need to update our entities with remote IDs of created items
                 $entity->setRemoteId($issueData[self::ID_KEY]);
+                $entity->setNumber($issueData[self::NUMBER_KEY]);
                 $entities[] = $entity;
             }
         }

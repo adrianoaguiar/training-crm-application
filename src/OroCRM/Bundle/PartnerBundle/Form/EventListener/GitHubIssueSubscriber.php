@@ -73,6 +73,8 @@ class GitHubIssueSubscriber implements EventSubscriberInterface
 
         // Remove 'status' field for newly created issues since you can create issue in "Open" status
         if (!$data->getId() && $form->has('status')) {
+            $statuses = $form->get('status')->getConfig()->getOption('choice_list')->getAdaptedList()->getChoices();
+            $data->setStatus(reset($statuses));
             $form->remove('status');
         }
     }
