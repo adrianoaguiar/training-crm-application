@@ -94,6 +94,7 @@ class GitHubIssueActivityListProvider implements ActivityListProviderInterface, 
     {
         return [
             'itemView' => 'orocrm_partner_github_issue_widget_info',
+            'itemEdit' => 'orocrm_partner_github_issue_update',
         ];
     }
 

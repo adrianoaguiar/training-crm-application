@@ -3,12 +3,13 @@
 namespace OroCRM\Bundle\PartnerBundle\ImportExport\Writer;
 
 use Oro\Bundle\IntegrationBundle\Exception\TransportException;
+use Oro\Bundle\IntegrationBundle\Provider\TwoWaySyncConnectorInterface;
 use OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue;
 
 class IssueExportWriter extends AbstractExportWriter
 {
-    const ID_KEY        = 'id';
-    const ORIGIN_ID_KEY = 'originId';
+    const ID_KEY     = 'id';
+    const NUMBER_KEY = 'number';
 
     /**
      * {@inheritdoc}
@@ -20,12 +21,16 @@ class IssueExportWriter extends AbstractExportWriter
         $entities = [];
         foreach ($items as $item) {
             /** @var GitHubIssue $entity */
-            $entity    = $this->getEntity($item[self::ORIGIN_ID_KEY]);
-            $issueData = $this->sendCreateRequest($item);
-
-            if ($entity && isset($issueData[self::ID_KEY])) {
+            $entity = $this->getEntity();
+            if (empty($item[self::ID_KEY])) {
+                $issueData = $this->sendCreateRequest($item);
+            } else {
+                $issueData = $this->sendUpdateRequest($item);
+            }
+            if ($entity && isset($issueData[self::NUMBER_KEY])) {
                 // We need to update our entities with remote IDs of created items
                 $entity->setRemoteId($issueData[self::ID_KEY]);
+                $entity->setNumber($issueData[self::NUMBER_KEY]);
                 $entities[] = $entity;
             }
         }
@@ -42,6 +47,26 @@ class IssueExportWriter extends AbstractExportWriter
         $result = null;
         try {
             $result = $this->transport->createIssue($item);
+        } catch (TransportException $e) {
+            $this->logger->error($e->getMessage());
+            $this->stepExecution->addFailureException($e);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $item
+     * @return null|array
+     */
+    protected function sendUpdateRequest(array $item)
+    {
+        $result = null;
+        if ($this->getTwoWaySyncStrategy() == TwoWaySyncConnectorInterface::REMOTE_WINS) {
+            // do some merging here if you need
+        }
+        try {
+            $result = $this->transport->updateIssue($item[self::NUMBER_KEY], $item);
         } catch (TransportException $e) {
             $this->logger->error($e->getMessage());
             $this->stepExecution->addFailureException($e);

@@ -2,11 +2,8 @@
 
 namespace OroCRM\Bundle\PartnerBundle\Controller\Api\Rest;
 
-use OroCRM\Bundle\PartnerBundle\Entity\Partner;
-use OroCRM\Bundle\PartnerBundle\Entity\PartnerStatus;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormInterface;
-
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
@@ -16,10 +13,9 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-
-use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
-use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
+use OroCRM\Bundle\PartnerBundle\Entity\Partner;
+use OroCRM\Bundle\PartnerBundle\Entity\PartnerStatus;
 
 /**
  * @RouteResource("partner")
@@ -50,9 +46,12 @@ class PartnerController extends RestController implements ClassResourceInterface
      *
      * @return Response
      */
-    public function cgetAction()
+    public function cgetAction(Request $request)
     {
-        return $this->handleGetListRequest();
+        $page = (int)$request->get('page', 1);
+        $limit = (int)$request->get('limit', self::ITEMS_PER_PAGE);
+
+        return $this->handleGetListRequest($page, $limit);
     }
 
     /**

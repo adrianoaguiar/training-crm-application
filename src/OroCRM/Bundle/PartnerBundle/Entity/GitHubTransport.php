@@ -19,7 +19,7 @@ class GitHubTransport extends Transport
      *
      * @ORM\Column(name="github_api_token", type="string", length=64, nullable=false)
      * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\Length(max=64)
      */
     protected $token;
 
@@ -28,7 +28,7 @@ class GitHubTransport extends Transport
      *
      * @ORM\Column(name="github_organization", type="string", length=32, nullable=false)
      * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\Length(max=32)
      */
     protected $organization;
 
@@ -37,7 +37,7 @@ class GitHubTransport extends Transport
      *
      * @ORM\Column(name="github_repo", type="string", length=32, nullable=false)
      * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\Length(max=32)
      */
     protected $repo;
 

@@ -12,10 +12,7 @@ class GitHubAccountDataConverter extends AbstractTableDataConverter
     protected function getHeaderConversionRules()
     {
         return [
-            'id'    => 'remoteId',
-            'login' => 'username',
-            'name'  => 'name',
-            'email' => 'email',
+            'login' => 'username'
         ];
     }
 
@@ -24,7 +21,7 @@ class GitHubAccountDataConverter extends AbstractTableDataConverter
      */
     protected function getBackendHeader()
     {
-        return ['username'];
+        return array_values($this->getHeaderConversionRules());
     }
 
     /**
@@ -34,7 +31,7 @@ class GitHubAccountDataConverter extends AbstractTableDataConverter
     {
         $exportedRecord = parent::convertToExportFormat($exportedRecord, $skipNullValues);
 
-        // We need a simple string for export
-        return implode(' ', $exportedRecord);
+        // We need a simple string for GitHub API
+        return reset($exportedRecord);
     }
 }

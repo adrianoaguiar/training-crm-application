@@ -4,7 +4,7 @@ namespace OroCRM\Bundle\PartnerBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use OroCRM\Bundle\PartnerBundle\Provider\Transport\GitHubTransport;
 
@@ -39,24 +39,24 @@ class GitHubTransportType extends AbstractType
         $builder->add(
             'token',
             'password',
-            ['label' => 'API Token', 'required' => true]
+            ['label' => 'orocrm.partner.github_transport.token.label', 'required' => true]
         );
         $builder->add(
             'organization',
             'text',
-            ['label' => 'Organization', 'required' => true]
+            ['label' => 'orocrm.partner.github_transport.organization.label', 'required' => true]
         );
         $builder->add(
             'repo',
             'text',
-            ['label' => 'Repo', 'required' => true]
+            ['label' => 'orocrm.partner.github_transport.repository.label', 'required' => true]
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => $this->transport->getSettingsEntityFQCN()]);
     }

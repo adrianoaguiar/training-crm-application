@@ -11,7 +11,7 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function __construct()
     {
-        $this->gitHubNormalizer = new BaseNormalizer(\DateTime::ISO8601, 'Y-m-d', 'H:i:s', 'UTC');
+        $this->gitHubNormalizer = new BaseNormalizer(\DateTime::ATOM);
     }
 
     /**
@@ -36,8 +36,8 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
     public function supportsDenormalization($data, $type, $format = null, array $context = array())
     {
         return $this->gitHubNormalizer->supportsDenormalization($data, $type, $format, $context)
-        && !empty($context[Serializer::PROCESSOR_ALIAS_KEY])
-        && strpos($context[Serializer::PROCESSOR_ALIAS_KEY], 'github') !== false;
+            && !empty($context[Serializer::PROCESSOR_ALIAS_KEY])
+            && strpos($context[Serializer::PROCESSOR_ALIAS_KEY], 'github') !== false;
     }
 
     /**
@@ -46,7 +46,7 @@ class DateTimeNormalizer implements NormalizerInterface, DenormalizerInterface
     public function supportsNormalization($data, $format = null, array $context = array())
     {
         return $this->gitHubNormalizer->supportsNormalization($data, $format, $context)
-        && !empty($context[Serializer::PROCESSOR_ALIAS_KEY])
-        && strpos($context[Serializer::PROCESSOR_ALIAS_KEY], 'github') !== false;
+            && !empty($context[Serializer::PROCESSOR_ALIAS_KEY])
+            && strpos($context[Serializer::PROCESSOR_ALIAS_KEY], 'github') !== false;
     }
 }

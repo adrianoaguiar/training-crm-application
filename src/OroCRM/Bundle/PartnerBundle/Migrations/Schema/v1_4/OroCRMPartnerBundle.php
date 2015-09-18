@@ -1,6 +1,6 @@
 <?php
 
-namespace OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_3;
+namespace OroCRM\Bundle\PartnerBundle\Migrations\Schema\v1_4;
 
 use Doctrine\DBAL\Schema\Schema;
 
@@ -25,8 +25,6 @@ class OroCRMPartnerBundle implements Migration
     public static function updateTransportTable(Schema $schema)
     {
         $table = $schema->getTable('oro_integration_transport');
-        $table->addColumn('github_api_token', 'string', ['notnull' => false, 'length' => 64]);
-        $table->addColumn('github_organization', 'string', ['notnull' => false, 'length' => 32]);
-        $table->addColumn('github_repo', 'string', ['notnull' => false, 'length' => 32]);
+        $table->changeColumn('github_api_token', ['length' => 64]);
     }
 }

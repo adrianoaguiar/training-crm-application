@@ -51,6 +51,7 @@ class Partner extends ExtendPartner
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
+     *              "identity"=true,
      *              "order"=10
      *          }
      *      }
