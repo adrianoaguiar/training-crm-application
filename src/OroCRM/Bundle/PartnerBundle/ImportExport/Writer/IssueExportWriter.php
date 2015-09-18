@@ -63,18 +63,13 @@ class IssueExportWriter extends AbstractExportWriter
     {
         $result = null;
         if ($this->getTwoWaySyncStrategy() == TwoWaySyncConnectorInterface::REMOTE_WINS) {
-            $e = new \InvalidArgumentException(
-                'Reverse sync with Remote Wins strategy is not supported for GitHub Issue connector'
-            );
-            $this->logger->error(new \RuntimeException($e));
+            // do some merging here if you need
+        }
+        try {
+            $result = $this->transport->updateIssue($item[self::NUMBER_KEY], $item);
+        } catch (TransportException $e) {
+            $this->logger->error($e->getMessage());
             $this->stepExecution->addFailureException($e);
-        } else {
-            try {
-                $result = $this->transport->updateIssue($item[self::NUMBER_KEY], $item);
-            } catch (TransportException $e) {
-                $this->logger->error($e->getMessage());
-                $this->stepExecution->addFailureException($e);
-            }
         }
 
         return $result;
