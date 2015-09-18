@@ -12,7 +12,6 @@ class GitHubIssueDataConverter extends AbstractTreeDataConverter
     protected function getHeaderConversionRules()
     {
         return [
-            'originId'   => 'id',
             'id'         => 'remoteId',
             'number'     => 'number',
             'title'      => 'title',
@@ -23,7 +22,6 @@ class GitHubIssueDataConverter extends AbstractTreeDataConverter
             'updated_at' => 'updatedAt',
             'closed_at'  => 'closedAt',
             'assignee'   => 'assignedTo',
-            'owner'      => 'owner:username'
         ];
     }
 
@@ -33,5 +31,16 @@ class GitHubIssueDataConverter extends AbstractTreeDataConverter
     protected function getBackendHeader()
     {
         return array_values($this->getHeaderConversionRules());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function fillEmptyColumns(array $header, array $data)
+    {
+        $dataDiff = array_diff(array_keys($data), $header);
+        $data = array_diff_key($data, array_flip($dataDiff));
+
+        return parent::fillEmptyColumns($header, $data);
     }
 }

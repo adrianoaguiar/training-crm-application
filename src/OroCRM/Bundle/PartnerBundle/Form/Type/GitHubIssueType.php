@@ -2,20 +2,33 @@
 
 namespace OroCRM\Bundle\PartnerBundle\Form\Type;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use OroCRM\Bundle\PartnerBundle\Provider\GitHubChannelType;
+use OroCRM\Bundle\PartnerBundle\Form\EventListener\GitHubIssueSubscriber;
+
 class GitHubIssueType extends AbstractType
 {
-    const INTEGRATION_TYPE = 'github';
+    /** @var GitHubIssueSubscriber */
+    protected $gitHubIssueSubscriber;
+
+    /**
+     * @param GitHubIssueSubscriber $gitHubIssueSubscriber
+     */
+    public function __construct(GitHubIssueSubscriber $gitHubIssueSubscriber)
+    {
+        $this->gitHubIssueSubscriber = $gitHubIssueSubscriber;
+    }
+
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber($this->gitHubIssueSubscriber);
         $builder
             ->add(
                 'title',
@@ -33,16 +46,11 @@ class GitHubIssueType extends AbstractType
                     'label'    => 'orocrm.partner.githubissue.description.label'
                 ]
             )->add(
-                'assignedTo',
-                'entity',
-                [
-                    'required' => true,
-                    'label'    => 'orocrm.partner.form.github_account.label',
-                    'class'    => 'OroCRMPartnerBundle:GitHubAccount'
-                ]
-            )->add(
                 'channel',
-                'oro_integration_select'
+                'oro_integration_select',
+                [
+                    'allowed_types' => [GitHubChannelType::TYPE]
+                ]
             );
     }
 

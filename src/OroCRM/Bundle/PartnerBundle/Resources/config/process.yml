@@ -112,5 +112,7 @@ triggers:
     github_issue_export:
         -
             event:    update
-            priority: 10
+            queued:   true
+        -
+            event:    create
             queued:   true
