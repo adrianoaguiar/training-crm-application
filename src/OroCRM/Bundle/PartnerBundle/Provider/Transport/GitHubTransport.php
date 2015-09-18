@@ -130,4 +130,18 @@ class GitHubTransport implements TransportInterface
 
         return $issueData;
     }
+
+    /**
+     * Update GutHub Issue
+     *
+     * @param string $id
+     * @param array $data
+     * @return array
+     */
+    public function updateIssue($id, $data)
+    {
+        $issueData = $this->client->issues()->update($this->gitHubOrganization, $this->gitHubRepo, $id, $data);
+
+        return $issueData;
+    }
 }

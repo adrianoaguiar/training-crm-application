@@ -20,3 +20,9 @@ OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue:
             - NotBlank: ~
         description:
             - NotBlank: ~
+        assignedTo:
+            - NotBlank:
+                message: 'You need to have a GitHub Account assigned to you partner to add a new GitHub issue'
+        channel:
+            - NotBlank:
+                message: 'You need to have a GitHub integration configured to add a new GitHub issue'

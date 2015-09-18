@@ -16,5 +16,15 @@
 {% endblock %}
 
 {% block activityActions %}
-    {# No Actions #}
+    {% set action %}
+        <% if (editable) { %>
+        <a href="#" class="action item-edit-button"
+           title="{{ 'orocrm.partner.githubissue.update_entity'|trans({'{{ entity }}': entityName})|raw }}">
+            <i class="icon-edit hide-text">{{ 'orocrm.partner.githubissue.update_entity'|trans({'{{ entity }}': entityName})|raw }}</i>
+        </a>
+        <% } %>
+    {% endset %}
+    {% set actions = [action] %}
+
+    {{ parent() }}
 {% endblock %}

@@ -4,15 +4,31 @@ namespace OroCRM\Bundle\PartnerBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use OroCRM\Bundle\PartnerBundle\Provider\GitHubChannelType;
+use OroCRM\Bundle\PartnerBundle\Form\EventListener\GitHubIssueSubscriber;
 
 class GitHubIssueType extends AbstractType
 {
+    /** @var GitHubIssueSubscriber */
+    protected $gitHubIssueSubscriber;
+
+    /**
+     * @param GitHubIssueSubscriber $gitHubIssueSubscriber
+     */
+    public function __construct(GitHubIssueSubscriber $gitHubIssueSubscriber)
+    {
+        $this->gitHubIssueSubscriber = $gitHubIssueSubscriber;
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventSubscriber($this->gitHubIssueSubscriber);
         $builder
             ->add(
                 'title',
@@ -30,12 +46,10 @@ class GitHubIssueType extends AbstractType
                     'label'    => 'orocrm.partner.githubissue.description.label'
                 ]
             )->add(
-                'assignedTo',
-                'entity',
+                'channel',
+                'oro_integration_select',
                 [
-                    'required' => true,
-                    'label'    => 'orocrm.partner.form.github_account.label',
-                    'class'    => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount'
+                    'allowed_types' => [GitHubChannelType::TYPE]
                 ]
             );
     }
@@ -43,11 +57,11 @@ class GitHubIssueType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             array(
-                'data_class' => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue'
+                'data_class' => 'OroCRM\Bundle\PartnerBundle\Entity\GitHubIssue',
             )
         );
     }

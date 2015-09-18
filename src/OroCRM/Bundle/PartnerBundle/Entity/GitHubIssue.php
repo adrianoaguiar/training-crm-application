@@ -115,6 +115,9 @@ class GitHubIssue extends ExtendGitHubIssue
      *      defaultValues={
      *          "entity"={
      *              "label"="oro.ui.created_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -129,6 +132,9 @@ class GitHubIssue extends ExtendGitHubIssue
      *      defaultValues={
      *          "entity"={
      *              "label"="oro.ui.updated_at"
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
      *          }
      *      }
      * )
@@ -139,6 +145,13 @@ class GitHubIssue extends ExtendGitHubIssue
      * @var \DateTime
      *
      * @ORM\Column(name="closed_at", type="datetime", nullable=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $closedAt;
 
@@ -147,6 +160,13 @@ class GitHubIssue extends ExtendGitHubIssue
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $owner;
 
@@ -155,7 +175,6 @@ class GitHubIssue extends ExtendGitHubIssue
      *
      * @ORM\ManyToOne(targetEntity="OroCRM\Bundle\PartnerBundle\Entity\GitHubAccount")
      * @ORM\JoinColumn(name="assigned_to_id", referencedColumnName="id", onDelete="SET NULL")
-     * )
      */
     protected $assignedTo;
 

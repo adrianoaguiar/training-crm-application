@@ -6,6 +6,7 @@ parameters:
     orocrm_partner.form.type.github_issue.class:                    OroCRM\Bundle\PartnerBundle\Form\Type\GitHubIssueType
     orocrm_partner.form.handler.partner.class:                      OroCRM\Bundle\PartnerBundle\Form\Handler\PartnerHandler
     orocrm_partner.form.handler.github_issue.class:                 OroCRM\Bundle\PartnerBundle\Form\Handler\GitHubIssueHandler
+    orocrm_partner.form.subscriber.github_issue_subscriber.class:   OroCRM\Bundle\PartnerBundle\Form\EventListener\GitHubIssueSubscriber
 
     # Search handler
     orocrm_partner.form.autocomplete.account.search_handler.class:  OroCRM\Bundle\PartnerBundle\Autocomplete\SearchHandler
@@ -41,9 +42,11 @@ services:
              - { name: form.type, alias: orocrm_partner_github_account_collection }
 
     orocrm_partner.form.type.partner_github_issue:
-            class: %orocrm_partner.form.type.github_issue.class%
-            tags:
-                 - { name: form.type, alias: orocrm_partner_github_issue }
+        class: %orocrm_partner.form.type.github_issue.class%
+        arguments:
+            - @orocrm_partner.form.subscriber.github_issue_subscriber
+        tags:
+             - { name: form.type, alias: orocrm_partner_github_issue }
 
     # Form Instances
     orocrm_partner.form.partner:
@@ -99,3 +102,11 @@ services:
             - @oro_security.acl_helper
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: partners_accounts, acl_resource: orocrm_account_view }
+
+    # Listener
+    orocrm_partner.form.subscriber.github_issue_subscriber:
+        class: %orocrm_partner.form.subscriber.github_issue_subscriber.class%
+        arguments:
+            - @oro_entity.routing_helper
+        calls:
+            - [setRequest, [@?request=]]

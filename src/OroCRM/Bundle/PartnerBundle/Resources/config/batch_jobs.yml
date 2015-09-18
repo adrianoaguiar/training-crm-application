@@ -26,4 +26,4 @@ connector:
                         processor: orocrm_partner.processor.export_issue
                         writer:    orocrm_partner.importexport.writer.issue
                     parameters:
-                        batch_size: 25
+                        batch_size: 1
